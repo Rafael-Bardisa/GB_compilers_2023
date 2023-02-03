@@ -1,0 +1,5 @@
+*build*
+.idea
+.vscode
+make/*.o
+binaries/gb_project
