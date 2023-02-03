@@ -57,7 +57,7 @@ int main(){
     printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
     printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
     printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
-    printf("%s\t\t\t\t%s\n\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
 
 
     //printf("%sHello, %sWorld!\n", FMT(WHITE), FMT(BLUE, UNDERLINE_L));

@@ -9,14 +9,6 @@ SOURCES := $(wildcard $(SRC)/*.c)
 HEADERS := $(wildcard $(HDR)/*.h)
 OBJECTS := $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SOURCES))
 
-
-
-print: $(wildcard *.c)
-	echo $(SOURCES)
-	echo $(HEADERS)
-	echo $(OBJECTS)
-	ls -la  $?
-
 binaries/gb_project: $(OBJECTS) $(OBJ)/main.o
 	$(CC) $^ -o $@
 
