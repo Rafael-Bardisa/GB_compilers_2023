@@ -8,9 +8,6 @@
 
 #include "common.h"
 
-#define TRUE 1
-#define FALSE 0
-
 /**
  * Given a file, return the length of the file in characters.
  * Resets the file position indicator back to the start of the file!

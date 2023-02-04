@@ -4,6 +4,8 @@
 
 #include "main.h"
 
+#include "automata.h"
+
 
 #define FOR(i, a, b) for (int (i) = (int)(a); (i) < (int)(b); ++(i))
 
@@ -48,16 +50,39 @@ int main(){
            FMT(RED_BG),
            FMT(YELLOW_BG_B));
            */
+/*
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
+    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
+*/
+    Automata test = create_automata(3, "abcdef");
 
-    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
-    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
-    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
-    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
-    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
-    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
-    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
-    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
-    printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
+    int** matrix = test.state_matrix;
+
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 6; j++){
+            printf("%s%i",FMT(BOLD, ITALICS, DASH) ,matrix[i][j]);
+        }
+    }
+
+    //save_automata(test, "test.txt");
+    Automata test2 = load_automata("test.txt");
+
+    int** matrix2 = test2.state_matrix;
+
+    printf("%s%s%s", FMT(MAGENTA_B), test2.alphabet, FMT(CLEAR));
+
+    for (int i = 0; i < 3; i++){
+        for (int j = 0; j < 6; j++){
+            printf("\n%s%i",FMT(BOLD, ITALICS, DASH) ,matrix2[i][j]);
+        }
+    }
 
 
     //printf("%sHello, %sWorld!\n", FMT(WHITE), FMT(BLUE, UNDERLINE_L));

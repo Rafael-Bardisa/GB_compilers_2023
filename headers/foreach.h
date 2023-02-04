@@ -2,6 +2,8 @@
 // Created by Rafael Bardisa Rodes on 31/1/23.
 //
 
+//TODO has little errors, only use when 100% sure it working to avoid unnecesarily difficult bugs
+
 #ifndef COMPILERS_FOREACH_H
 #define COMPILERS_FOREACH_H
 
@@ -41,6 +43,7 @@
 #define SPLIT_float LPAREN float in
 #define SPLIT_double LPAREN double in
 #define SPLIT_Token LPAREN Token in
+#define SPLIT_Automata LPAREN Automata in
 
 /**
  * for loop similar to python's "for elem in list" heavily encapsulated to provide an easy way to write it\n\n
