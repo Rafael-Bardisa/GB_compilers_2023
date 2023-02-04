@@ -4,7 +4,7 @@
 
 #include "automata.h"
 
-Automata create_automata(int num_states, char* accepted_chars){
+Automata create_automata(int num_states, char* accepted_chars, Category token_type){
     //know length of automata accepted characters for malloc
     int num_chars = strlen(accepted_chars) + 1;
 
@@ -22,6 +22,8 @@ Automata create_automata(int num_states, char* accepted_chars){
 
     //create and return an automata
     Automata automata = {
+            .token_type = token_type,
+
             .state_matrix = states,
             .num_states = num_states,
 
@@ -57,7 +59,9 @@ int save_automata(Automata* automata, char* file_path){
 
     int file_ref = fileno(save_file);
 
-    dprintf(file_ref, "%i %s\n", automata->num_states, automata->alphabet);
+    // information header for later correct retrieval of the automata
+    dprintf(file_ref, "%i %s %s\n", automata->num_states, automata->alphabet, cat_to_str(&automata->token_type));
+
     for(int i = 0; i < automata->num_states; i++){
         int first_char = TRUE;
         for(int j = 0; j < automata->num_chars; j++){
@@ -76,17 +80,18 @@ Automata load_automata(char* file_path){
     FILE *save_file = fopen(file_path, "r");
 
     if (!save_file){
-        dprintf(1, "%sERROR LOADING AUTOMATA: %snull file pointer\n", FMT(BOLD, RED), FMT(UNDERLINE_L));
+        dprintf(1, "%sERROR LOADING AUTOMATA: %snull file pointer%s\n", FMT(BOLD, RED), FMT(UNDERLINE_L), FMT(CLEAR));
         // this should be null
         return (Automata){0};
     }
 
     int num_states;
     //preemptively allocate enough space for reading the buffer
-    char alphabet[1024];
-    fscanf(save_file, "%i %s", &num_states, alphabet);
+    char alphabet[512];
+    char category[128];
+    fscanf(save_file, "%i %s %s", &num_states, alphabet, category);
 
-    Automata automata = create_automata(num_states, alphabet);
+    Automata automata = create_automata(num_states, alphabet, str_to_cat(category));
 
     for (int i = 0; i < automata.num_states; i++){
         for (int j = 0; j < automata.num_chars; j++){
@@ -115,4 +120,60 @@ int advance(Automata* automata, char letter){
     automata->current_state = automata->state_matrix[automata->current_state][letter_idx];
 
     return automata->current_state;
+}
+
+Token scan(Automata* automata, char* lexeme){
+    // set automata current index to 1
+    start_automata(automata);
+    // turn lexeme into char array
+    int lexeme_len = strlen(lexeme);
+    char lexeme_array[lexeme_len];
+    strcpy(lexeme_array, lexeme);
+
+    // iterate over lexeme, advance automata current state according to its DFA
+    foreach(char* letter in lexeme_array){
+            advance(automata, *letter);
+    }
+
+    //if automata did not reach accepting state after crawling lexeme return null token
+    if(!(automata->current_state == automata->num_states - 1)){
+        Token token = {0};
+        return token;
+    }
+    // lexeme is accepted, return a token
+    Token token = {.lexeme = lexeme, .category = automata->token_type};
+    return token;
+}
+
+void print_automata(Automata* automata, char* automata_name){
+    int alphabet_len = strlen(automata->alphabet);
+    char alphabet[alphabet_len];
+    strcpy(alphabet, automata->alphabet);
+
+    printf("\n%s<%s> information:\n\n", FMT(BLUE_B, BOLD), automata_name);
+
+    printf("%sNumber of states:%s\t%i\n", FMT(CLEAR), FMT(BLUE_B), automata->num_states);
+    printf("%sAllowed characters:%s\t%s%s + %swildcard\n",FMT(CLEAR), FMT(BLUE_B), alphabet, FMT(CLEAR), FMT(MAGENTA));
+    printf("%sToken type:%s\t%s\n\n",FMT(CLEAR), FMT(BLUE_B), cat_to_str(&automata->token_type));
+
+    printf("%sDFA matrix representation:\n\n\t", FMT(BLUE_B));
+
+    foreach(char* letter in alphabet){
+        printf("%c\t", *letter);
+    }
+    printf("%s%s\n", FMT(MAGENTA), SIGMA);
+
+    for(int i = 0; i < automata->num_states; i++){
+        char* q_fmt = i == automata->num_states - 1 ? FMT(YELLOW_B) : FMT(BLUE_B);
+
+        printf("%sq%i\t", q_fmt, i);
+        for(int j = 0; j < automata->num_chars; j++){
+            //pretty printing info
+            int next_state = automata->state_matrix[i][j];
+            char* fmt = next_state ? next_state == automata->num_states - 1 ? FMT(YELLOW_B) : j == automata->num_chars - 1 ? FMT(MAGENTA) : FMT(BLUE_B) : FMT(GRAY);
+
+            printf("%s%i\t", fmt, next_state);
+        }
+        printf("\n");
+    }
 }

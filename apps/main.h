@@ -7,5 +7,5 @@
 
 #include "comments.h"
 #include "common.h"
-#include "tokens.h"
+#include "automata.h"
 #endif //COMPILERS_MAIN_H

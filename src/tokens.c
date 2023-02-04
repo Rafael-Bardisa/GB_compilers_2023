@@ -4,15 +4,15 @@
 #include "tokens.h"
 
 
-void printToken(Token* token, int fd){
+void print_token(Token* token, int fd){
     // string representation of token->category
-    char* repr = catToStr(&token->category);
+    char* repr = cat_to_str(&token->category);
 
     dprintf(fd, "<%s, %s>", token->lexeme, repr);
 }
 
 
-char* catToStr(const Category* category) {
+char* cat_to_str(const Category* category) {
 
     char* repr;
     switch(*category){
@@ -39,4 +39,33 @@ char* catToStr(const Category* category) {
     }
     // this is fine because it returns a pointer to a string literal, which is burned in the binary of the program
     return repr;
+}
+
+Category str_to_cat(const char* str) {
+    Category category;
+
+    // cant do switch statement on char*
+    if (!strcmp(str, "CAT_LITERAL")){
+        category = CAT_LITERAL;
+    }
+    else if (!strcmp(str, "CAT_KEYWORD")){
+        category = CAT_KEYWORD;
+    }
+    else if (!strcmp(str, "CAT_IDENTIFIER")){
+        category = CAT_IDENTIFIER;
+    }
+    else if (!strcmp(str, "CAT_NUMBER")){
+        category = CAT_NUMBER;
+    }
+    else if (!strcmp(str, "CAT_OPERAND")){
+        category = CAT_OPERAND;
+    }
+    else if (!strcmp(str, "CAT_SPECIALCHAR")){
+        category = CAT_SPECIALCHAR;
+    }
+    else {
+        category = CAT_NONRECOGNIZED;
+    }
+
+    return category;
 }

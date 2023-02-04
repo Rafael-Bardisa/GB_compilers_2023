@@ -5,15 +5,24 @@
 #ifndef COMPILERS_PROJECT_GB_AUTOMATA_H
 #define COMPILERS_PROJECT_GB_AUTOMATA_H
 
-#include "common.h"
 #include <stdlib.h>
+
+#include "common.h"
+#include "tokens.h"
 
 #define ALPHABET "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ{}()[]+<>*=;,\"0123456789"
 
 /**
+ * shorthand for print_automata
+ */
+#define automata_info(automata) print_automata(&(automata), getName(automata))
+
+/**
  * struct to conveniently store an automata
  */
-typedef struct _automata{
+typedef struct automatus{
+    Category token_type;
+
     int** state_matrix;
     int current_state;
 
@@ -23,9 +32,8 @@ typedef struct _automata{
 
     // number of columns in automata
     int num_chars;
-
+    //number of states in the DFA
     int num_states;
-
 } Automata;
 
 /**
@@ -34,7 +42,7 @@ typedef struct _automata{
  * @param accepted_chars the complete list of characters for which there exists at least one valid state change (not to state 0)
  * @return
  */
-Automata create_automata(int num_states, char* accepted_chars);
+Automata create_automata(int num_states, char* accepted_chars, Category token_type);
 
 /**
  * Frees all calloced memory from the automata parameter
@@ -80,6 +88,18 @@ int index_of(Automata* automata, char letter);
  */
 int advance(Automata* automata, char letter);
 
+/**
+ * Runs the automata on a given lexeme. Returns a token if accepted
+ * @param automata
+ * @param lexeme
+ * @returns Token{0} if not in the accepting state, else Token{lexeme, automata.token_type}
+ */
+Token scan(Automata* automata, char* lexeme);
 
+/**
+ * Prints the infotmation held in the automata
+ * @param automata
+ */
+void print_automata(Automata* automata, char* automata_name);
 
 #endif //COMPILERS_PROJECT_GB_AUTOMATA_H

@@ -17,6 +17,9 @@
 #define TRUE 1
 #define FALSE 0
 
+#define SIGMA "\U000003A3"
+#define getName(var) #var
+
 /*
 typedef union Iter{
     int i;

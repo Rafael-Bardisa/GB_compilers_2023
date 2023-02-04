@@ -8,28 +8,36 @@
 #include "common.h"
 
 // default print to stdout for error checking
-#define TKPRINT(a) printToken(a, 1)
+#define TKPRINT(a) print_token(a, 1)
 
 typedef enum category{
+    CAT_NONRECOGNIZED = 0,
     CAT_NUMBER,
     CAT_IDENTIFIER,
     CAT_KEYWORD,
     CAT_LITERAL,
     CAT_OPERAND,
     CAT_SPECIALCHAR,
-    CAT_NONRECOGNIZED,
 } Category;
 
 typedef struct token {
     char* lexeme;
     Category category;
 } Token;
+
 /**
  * Returns the string representation of the given category
  * @param category
  * @return char* containing the string representation of the category
  */
-char* catToStr(const Category* category);
+char* cat_to_str(const Category* category);
+
+/**
+ * Returns the enum category value of str
+ * @param str
+ * @return a category
+ */
+Category str_to_cat(const char* str);
 
 /**
  * Converts a token into a readable string and prints it to the given file descriptor\n
@@ -40,5 +48,5 @@ char* catToStr(const Category* category);
  * @param fd the file descriptor to write into
  * @return the string representation of the given token
  */
-void printToken(Token* token, int fd);
+void print_token(Token* token, int fd);
 #endif //COMPILERS_TOKENS_H
