@@ -71,12 +71,19 @@ int main(){
         }
     }
 
+    printf("%s%i%s\n", FMT(WHITE_BG, BLACK), index_of(&test, 'a'), FMT(CLEAR));
+    free_automata(&test);
+    //save_automata(test, "test.txt");
+
     //save_automata(test, "test.txt");
     Automata test2 = load_automata("test.txt");
 
     int** matrix2 = test2.state_matrix;
 
-    printf("%s%s%s", FMT(MAGENTA_B), test2.alphabet, FMT(CLEAR));
+    printf("%s%i%s\n", FMT(MAGENTA_B), advance(&test2, 'a'), FMT(CLEAR));
+    printf("%s%i%s\n", FMT(MAGENTA_B), advance(&test2, 'd'), FMT(CLEAR));
+    printf("%s%i%s\n", FMT(MAGENTA_B), advance(&test2, 'k'), FMT(CLEAR));
+    printf("%s%i%s\n", FMT(MAGENTA_B), test2.current_state, FMT(CLEAR));
 
     for (int i = 0; i < 3; i++){
         for (int j = 0; j < 6; j++){
