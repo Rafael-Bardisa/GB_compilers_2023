@@ -75,6 +75,7 @@ int main(){
     //free_automata(&test);
 
     //save_automata(test, "test.txt");
+    //TODO relative paths, sync both CMake and Makefile builds
     Automata test2 = load_automata("test.txt");
 
     Token scan_result = scan(&test2, "\"Hola caracola\"");
