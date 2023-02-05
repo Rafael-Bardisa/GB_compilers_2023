@@ -17,6 +17,7 @@ typedef enum category{
     CAT_KEYWORD,
     CAT_LITERAL,
     CAT_OPERAND,
+    CAT_TYPE,
     CAT_SPECIALCHAR,
 } Category;
 

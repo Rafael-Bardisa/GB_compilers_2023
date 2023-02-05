@@ -34,6 +34,9 @@ char* cat_to_str(const Category* category) {
         case CAT_SPECIALCHAR:
             repr = "CAT_SPECIALCHAR";
             break;
+        case CAT_TYPE:
+            repr = "CAT_TYPE";
+            break;
         default:
             repr = "CAT_UNRECOGNIZED";
     }
@@ -62,6 +65,9 @@ Category str_to_cat(const char* str) {
     }
     else if (!strcmp(str, "CAT_SPECIALCHAR")){
         category = CAT_SPECIALCHAR;
+    }
+    else if (!strcmp(str, "CAT_TYPE")){
+        category = CAT_TYPE;
     }
     else {
         category = CAT_NONRECOGNIZED;

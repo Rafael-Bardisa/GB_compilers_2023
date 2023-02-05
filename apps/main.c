@@ -59,7 +59,7 @@ int main(){
     printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
     printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
 */
-/*
+
     Automata test = create_automata(3, "abcdef", CAT_LITERAL);
 
     int** matrix = test.state_matrix;
@@ -69,12 +69,12 @@ int main(){
             printf("%s%i",FMT(BOLD, ITALICS, DASH) ,matrix[i][j]);
         }
     }
-*/
-    //printf("%s%i%s\n", FMT(WHITE_BG, BLACK), index_of(&test, 'a'), FMT(CLEAR));
-    //save_automata(&test, "test.txt");
-    //free_automata(&test);
 
-    //save_automata(test, "test.txt");
+    printf("%s%i%s\n", FMT(WHITE_BG, BLACK), index_of(&test, 'a'), FMT(CLEAR));
+    save_automata(&test, "test.txt");
+    free_automata(&test);
+
+    save_automata(&test, "test.txt");
     //TODO relative paths, sync both CMake and Makefile builds
     Automata test2 = load_automata("test.txt");
 

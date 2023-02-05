@@ -10,9 +10,9 @@
 
 //ultimate flex
 #include "foreach.h"
+#include "format.h"
 
 // defining NO_FMT replaces all calls to FMT() by "", essentially deactivating the macro
-#include "format.h"
 
 #define TRUE 1
 #define FALSE 0

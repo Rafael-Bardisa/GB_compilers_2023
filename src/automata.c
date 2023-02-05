@@ -128,7 +128,11 @@ Token scan(Automata* automata, char* lexeme){
     // turn lexeme into char array
     int lexeme_len = strlen(lexeme);
     char lexeme_array[lexeme_len];
-    strcpy(lexeme_array, lexeme);
+
+    //no string.h functions for retrieving text
+    for (int i = 0; i < lexeme_len; i++){
+        lexeme_array[i] = lexeme[i];
+    }
 
     // iterate over lexeme, advance automata current state according to its DFA
     foreach(char* letter in lexeme_array){
