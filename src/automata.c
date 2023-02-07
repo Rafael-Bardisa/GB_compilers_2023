@@ -53,23 +53,24 @@ int save_automata(Automata* automata, char* file_path){
     FILE *save_file = fopen(file_path, "w+");
 
     if (!save_file){
-        dprintf(1, "%sERROR SAVING AUTOMATA: %snull file pointer\n", FMT(BOLD, RED), FMT(UNDERLINE_L));
+        fprintf(stdout, "%sERROR SAVING AUTOMATA: %snull file pointer\n", FMT(BOLD, RED), FMT(UNDERLINE_L));
         return -1;
     }
 
+    //fallback if fprintf doesn't work
     int file_ref = fileno(save_file);
 
     // information header for later correct retrieval of the automata
-    dprintf(file_ref, "%i %s %s\n", automata->num_states, automata->alphabet, cat_to_str(&automata->token_type));
+    fprintf(save_file, "%i %s %s\n", automata->num_states, automata->alphabet, cat_to_str(&automata->token_type));
 
     for(int i = 0; i < automata->num_states; i++){
         int first_char = TRUE;
         for(int j = 0; j < automata->num_chars; j++){
-            if (!first_char) dprintf(file_ref, " ");
-            dprintf(file_ref, "%i", automata->state_matrix[i][j]);
+            if (!first_char) fprintf(save_file, " ");
+            fprintf(save_file, "%i", automata->state_matrix[i][j]);
             first_char = FALSE;
         }
-        dprintf(file_ref, "\n");
+        fprintf(save_file, "\n");
     }
 
     fclose(save_file);
@@ -80,7 +81,7 @@ Automata load_automata(char* file_path){
     FILE *save_file = fopen(file_path, "r");
 
     if (!save_file){
-        dprintf(1, "%sERROR LOADING AUTOMATA: %snull file pointer%s\n", FMT(BOLD, RED), FMT(UNDERLINE_L), FMT(CLEAR));
+        fprintf(stdout, "%sERROR LOADING AUTOMATA: %snull file pointer%s\n", FMT(BOLD, RED), FMT(UNDERLINE_L), FMT(CLEAR));
         // this should be null
         return (Automata){0};
     }
@@ -115,9 +116,13 @@ int index_of(Automata* automata, char letter){
     return automata->num_chars - 1;
 }
 
-int advance(Automata* automata, char letter){
+int peek(Automata* automata, char letter){
     int letter_idx = index_of(automata, letter);
-    automata->current_state = automata->state_matrix[automata->current_state][letter_idx];
+    return automata->state_matrix[automata->current_state][letter_idx];
+}
+
+int advance(Automata* automata, char letter){
+    automata->current_state = peek(automata, letter);
 
     return automata->current_state;
 }

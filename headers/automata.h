@@ -81,6 +81,14 @@ void start_automata(Automata* automata);
 int index_of(Automata* automata, char letter);
 
 /**
+ * returns automata matrix[state][letter]
+ * @param automata
+ * @param letter
+ * @return
+ */
+int peek(Automata* automata, char letter);
+
+/**
  * Advances an automata to the next state in its DFA, represented internally by its state matrix
  * @param automata which automata to run
  * @param letter which letter has been read

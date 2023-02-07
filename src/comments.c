@@ -119,7 +119,7 @@ int removeComments(char* infilePath, char* outfilePath) {
     FILE *infile = fopen(infilePath, "r");
 
     if (!infile){
-        dprintf(1, "%s%s%s%s", FMT(BOLD, ITALICS, RED_BG, REVERSE), "ERROR: ", FMT(BLUE, DASH, WHITE_BG), "null file pointer\n");
+        fprintf(stdout, "%s%s%s%s", FMT(BOLD, ITALICS, RED_BG, REVERSE), "ERROR: ", FMT(BLUE, DASH, WHITE_BG), "null file pointer\n");
         return -1;
     }
     // create a buffer to store infile without comments

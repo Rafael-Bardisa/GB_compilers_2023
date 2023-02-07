@@ -60,29 +60,23 @@ int main(){
     printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
 */
 
-    Automata test = create_automata(3, "abcdef", CAT_LITERAL);
+    Automata test = create_automata(3, "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", CAT_IDENTIFIER);
 
-    int** matrix = test.state_matrix;
-
-    for (int i = 0; i < 3; i++){
-        for (int j = 0; j < 6; j++){
-            printf("%s%i",FMT(BOLD, ITALICS, DASH) ,matrix[i][j]);
-        }
-    }
-
-    printf("%s%i%s\n", FMT(WHITE_BG, BLACK), index_of(&test, 'a'), FMT(CLEAR));
-    save_automata(&test, "test.txt");
+    save_automata(&test, "fteste.txt");
     free_automata(&test);
 
-    save_automata(&test, "test.txt");
     //TODO relative paths, sync both CMake and Makefile builds
-    Automata test2 = load_automata("test.txt");
-
-    Token scan_result = scan(&test2, "\"Hola caracola\"");
-
-    TKPRINT(&scan_result);
+    Automata test2 = load_automata("keywords.txt");
 
     automata_info(test2);
+
+    Token scan_result = scan(&test2, "\"mainmmmmmmm\"");
+    TKPRINT(&scan_result);
+    scan_result = scan(&test2, "while");
+    TKPRINT(&scan_result);
+    scan_result = scan(&test2, "if");
+    TKPRINT(&scan_result);
+
     //printf("%sHello, %sWorld!\n", FMT(WHITE), FMT(BLUE, UNDERLINE_L));
     //printf("\n");
 

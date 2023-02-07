@@ -8,7 +8,7 @@
 #include "common.h"
 
 // default print to stdout for error checking
-#define TKPRINT(a) print_token(a, 1)
+#define TKPRINT(a) print_token(a, stdout)
 
 typedef enum category{
     CAT_NONRECOGNIZED = 0,
@@ -49,5 +49,5 @@ Category str_to_cat(const char* str);
  * @param fd the file descriptor to write into
  * @return the string representation of the given token
  */
-void print_token(Token* token, int fd);
+void print_token(Token* token, FILE *fd);
 #endif //COMPILERS_TOKENS_H
