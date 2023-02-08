@@ -62,11 +62,11 @@ int main(){
 
     Automata test = create_automata(3, "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", CAT_IDENTIFIER);
 
-    save_automata(&test, "fteste.txt");
+    save_automata(&test, "resources/fteste.txt");
     free_automata(&test);
 
     //TODO relative paths, sync both CMake and Makefile builds
-    Automata test2 = load_automata("keywords.txt");
+    Automata test2 = load_automata("resources/keywords.txt");
 
     automata_info(test2);
 

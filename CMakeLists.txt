@@ -31,8 +31,3 @@ add_subdirectory(apps)
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING) AND BUILD_TESTING)
     add_subdirectory(test)
 endif()
-
-#add_custom_command(TARGET COMPILERS_PROJECT_GB POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy_directory
-#        ${PROJECT_SOURCE_DIR}/resources/
-#        $<TARGET_FILE_DIR:COMPILERS_PROJECT_GB>/resources/)
