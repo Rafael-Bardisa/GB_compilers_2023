@@ -12,23 +12,14 @@
         va_list argv;
         int i;
 
-        // calculate available memory in buffer available for ANSI codes
-        int buffer_len = FMT_BUF_SIZE - strlen(FMT_START) - strlen(FMT_END) - 1;
-
         // initialize argv to get data from the variable arguments
         va_start(argv, argc);
 
         strcat(buffer, FMT_START);
         /* access all the arguments assigned to valist */
         for (i = 0; i < argc; i++) {
-
-            // retrieve ansi code and substract length to available length to prevent overflows
-            char* code = va_arg(argv, char*);
-            buffer_len -= strlen(code);
-
-            // concatenate ansi code if there's space available in the buffer, else break out of loop
-            if(buffer_len >= 0) strcat(buffer, code);
-            else break;
+            // retrieve ansi code and concatenate into buffer
+            strcat(buffer, va_arg(argv, char*));
         }
         strcat(buffer, FMT_END);
 

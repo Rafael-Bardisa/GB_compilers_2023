@@ -145,7 +145,7 @@ Token scan(Automata* automata, char* lexeme){
     }
 
     //if automata did not reach accepting state after crawling lexeme return null token
-    if(!(automata->current_state == automata->num_states - 1)){
+    if(automata->current_state != automata->num_states - 1){
         Token token = {0};
         return token;
     }

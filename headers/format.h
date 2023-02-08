@@ -22,7 +22,8 @@
         /**
          * Automatically fills in parameters buffer and argc for the format function. Buffer is a global variable, therefore it is never out of scope.
          */
-        #define FMT(...) format((char[FMT_BUF_SIZE]){""}, FARGS(__VA_ARGS__), __VA_ARGS__)
+        #define FMT(...) \
+        format((char[4*FARGS(__VA_ARGS__) + sizeof(FMT_START) + sizeof(FMT_END) + 1]){""}, FARGS(__VA_ARGS__), __VA_ARGS__)
 
         #define FMT_START "\x1B["
         #define FMT_END "m"
