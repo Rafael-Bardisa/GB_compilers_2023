@@ -59,22 +59,22 @@ int main(){
     printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(RED_BG));
     printf("%s\t\t\t\t%s\n", FMT(BLUE_BG), FMT(YELLOW_BG_B));
 */
-
+/*
     Automata test = create_automata(3, "abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", CAT_IDENTIFIER);
 
     save_automata(&test, "resources/fteste.txt");
     free_automata(&test);
-
+*/
     //TODO relative paths, sync both CMake and Makefile builds
-    Automata test2 = load_automata("resources/keywords.txt");
+    Automata literals = load_automata("resources/multiline_comments.txt");
 
-    automata_info(test2);
+    automata_info(literals);
     FMT(WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG, WHITE_BG);
-    Token scan_result = scan(&test2, "\"mainmmmmmmm\"");
+    Token scan_result = scan(&literals, "/*hello\nhow\nare\nyou**m//*/");
     TKPRINT(&scan_result);
-    scan_result = scan(&test2, "while");
+    scan_result = scan(&literals, "while");
     TKPRINT(&scan_result);
-    scan_result = scan(&test2, "if");
+    scan_result = scan(&literals, "if");
     TKPRINT(&scan_result);
 
     //printf("%sHello, %sWorld!\n", FMT(WHITE), FMT(BLUE, UNDERLINE_L));
