@@ -109,5 +109,6 @@ Token scan(Automata* automata, char* lexeme);
  * @param automata
  */
 void print_automata(Automata* automata, char* automata_name);
+Token get_token(char* lexeme, Automata automatas[]);
 
 #endif //COMPILERS_PROJECT_GB_AUTOMATA_H

@@ -19,12 +19,15 @@ typedef enum category{
     CAT_OPERAND,
     CAT_TYPE,
     CAT_SPECIALCHAR,
+    CAT_NULL
 } Category;
 
 typedef struct token {
     char* lexeme;
     Category category;
 } Token;
+Token create_token(char* lexeme, Category cat);
+
 
 /**
  * Returns the string representation of the given category
@@ -32,6 +35,8 @@ typedef struct token {
  * @return char* containing the string representation of the category
  */
 char* cat_to_str(const Category* category);
+
+
 
 /**
  * Returns the enum category value of str

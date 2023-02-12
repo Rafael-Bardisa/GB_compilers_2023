@@ -3,6 +3,10 @@
 //
 #include "tokens.h"
 
+Token create_token(char* lexeme, Category cat){
+    Token token = {.lexeme = lexeme, .category = cat};
+    return token;
+}
 
 void print_token(Token* token, FILE *fd){
     // string representation of token->category

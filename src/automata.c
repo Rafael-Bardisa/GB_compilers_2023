@@ -154,6 +154,40 @@ Token scan(Automata* automata, char* lexeme){
     return token;
 }
 
+Token get_token(char* lexeme, Automata automatas[]){
+    // keywords
+    if(scan(&automatas[0], lexeme).category == CAT_KEYWORD){
+        return create_token(lexeme, CAT_KEYWORD);
+    }
+    // identifiers
+    else if(scan(&automatas[1], lexeme).category == CAT_IDENTIFIER){
+        return create_token(lexeme, CAT_IDENTIFIER);
+    }
+    // literals
+    else if(scan(&automatas[2], lexeme).category == CAT_LITERAL){
+        return create_token(lexeme, CAT_LITERAL);
+    }
+    // types
+    else if(scan(&automatas[3], lexeme).category == CAT_TYPE){
+        return create_token(lexeme, CAT_TYPE);
+    }
+    // special characters
+    else if(scan(&automatas[4], lexeme).category == CAT_SPECIALCHAR){
+        return create_token(lexeme, CAT_SPECIALCHAR);
+    }// operators
+    else if(scan(&automatas[5], lexeme).category == CAT_OPERAND){
+        return create_token(lexeme, CAT_OPERAND);
+    }
+    // numbers
+    else if(scan(&automatas[6], lexeme).category == CAT_NUMBER){
+        return create_token(lexeme, CAT_NUMBER);
+    }
+    else{
+        return create_token(lexeme, CAT_NONRECOGNIZED);
+    }
+
+}
+
 void print_automata(Automata* automata, char* automata_name){
     int alphabet_len = strlen(automata->alphabet);
     char alphabet[alphabet_len];
