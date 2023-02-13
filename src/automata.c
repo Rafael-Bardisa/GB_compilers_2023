@@ -29,6 +29,7 @@ Automata create_automata(int num_states, char* accepted_chars, Category token_ty
 
             //TODO black magic
             .at = NULL,
+            .scanned = {0},
 
             .alphabet = alphabet,
             .num_chars = num_chars,
@@ -127,65 +128,27 @@ int advance(Automata* automata, char letter){
     return automata->current_state;
 }
 
-Token scan(Automata* automata, char* lexeme){
+int scan(Automata* automata, char* lexeme){
     // set automata current index to 1
     start_automata(automata);
-    // turn lexeme into char array
+    //TODO support for lexemes with more than one token (i.e, whilehhhh should know while is a token)
     int lexeme_len = strlen(lexeme);
-    char lexeme_array[lexeme_len];
-
-    //no string.h functions for retrieving text
-    for (int i = 0; i < lexeme_len; i++){
-        lexeme_array[i] = lexeme[i];
-    }
 
     // iterate over lexeme, advance automata current state according to its DFA
-    foreach(char* letter in lexeme_array){
-            advance(automata, *letter);
+    for (int i=0; i < lexeme_len; i++){
+
+
+        return i+1;
     }
 
     //if automata did not reach accepting state after crawling lexeme return null token
     if(automata->current_state != automata->num_states - 1){
         Token token = {0};
-        return token;
+        return 0;
     }
     // lexeme is accepted, return a token
     Token token = {.lexeme = lexeme, .category = automata->token_type};
-    return token;
-}
-
-Token get_token(char* lexeme, Automata automatas[]){
-    // keywords
-    if(scan(&automatas[0], lexeme).category == CAT_KEYWORD){
-        return create_token(lexeme, CAT_KEYWORD);
-    }
-    // identifiers
-    else if(scan(&automatas[1], lexeme).category == CAT_IDENTIFIER){
-        return create_token(lexeme, CAT_IDENTIFIER);
-    }
-    // literals
-    else if(scan(&automatas[2], lexeme).category == CAT_LITERAL){
-        return create_token(lexeme, CAT_LITERAL);
-    }
-    // types
-    else if(scan(&automatas[3], lexeme).category == CAT_TYPE){
-        return create_token(lexeme, CAT_TYPE);
-    }
-    // special characters
-    else if(scan(&automatas[4], lexeme).category == CAT_SPECIALCHAR){
-        return create_token(lexeme, CAT_SPECIALCHAR);
-    }// operators
-    else if(scan(&automatas[5], lexeme).category == CAT_OPERAND){
-        return create_token(lexeme, CAT_OPERAND);
-    }
-    // numbers
-    else if(scan(&automatas[6], lexeme).category == CAT_NUMBER){
-        return create_token(lexeme, CAT_NUMBER);
-    }
-    else{
-        return create_token(lexeme, CAT_NONRECOGNIZED);
-    }
-
+    return 0;
 }
 
 void print_automata(Automata* automata, char* automata_name){
@@ -220,3 +183,40 @@ void print_automata(Automata* automata, char* automata_name){
         printf("\n");
     }
 }
+
+//TODO review
+/*
+Token get_token(char* lexeme, Automata automatas[]){
+    // keywords
+    if(scan(&automatas[0], lexeme).category == CAT_KEYWORD){
+        return create_token(lexeme, CAT_KEYWORD);
+    }
+        // identifiers
+    else if(scan(&automatas[1], lexeme).category == CAT_IDENTIFIER){
+        return create_token(lexeme, CAT_IDENTIFIER);
+    }
+        // literals
+    else if(scan(&automatas[2], lexeme).category == CAT_LITERAL){
+        return create_token(lexeme, CAT_LITERAL);
+    }
+        // types
+    else if(scan(&automatas[3], lexeme).category == CAT_TYPE){
+        return create_token(lexeme, CAT_TYPE);
+    }
+        // special characters
+    else if(scan(&automatas[4], lexeme).category == CAT_SPECIALCHAR){
+        return create_token(lexeme, CAT_SPECIALCHAR);
+    }// operators
+    else if(scan(&automatas[5], lexeme).category == CAT_OPERAND){
+        return create_token(lexeme, CAT_OPERAND);
+    }
+        // numbers
+    else if(scan(&automatas[6], lexeme).category == CAT_NUMBER){
+        return create_token(lexeme, CAT_NUMBER);
+    }
+    else{
+        return create_token(lexeme, CAT_NONRECOGNIZED);
+    }
+
+}
+*/

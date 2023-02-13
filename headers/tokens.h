@@ -26,6 +26,13 @@ typedef struct token {
     char* lexeme;
     Category category;
 } Token;
+
+/**
+ * Creates a token from a lexeme string and a cat Category
+ * @param lexeme
+ * @param cat
+ * @return the corresponding Token
+ */
 Token create_token(const char* lexeme, Category cat);
 
 

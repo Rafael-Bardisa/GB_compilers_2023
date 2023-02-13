@@ -22,6 +22,7 @@
  */
 typedef struct automatus{
     Category token_type;
+    Token scanned;
 
     int** state_matrix;
     int current_state;
@@ -97,18 +98,19 @@ int peek(Automata* automata, char letter);
 int advance(Automata* automata, char letter);
 
 /**
- * Runs the automata on a given lexeme. Returns a token if accepted
+ * Runs the automata on a given lexeme. Returns the number of characters read
  * @param automata
  * @param lexeme
- * @returns Token{0} if not in the accepting state, else Token{lexeme, automata.token_type}
+ * @returns the number of characters read from lexeme
  */
-Token scan(Automata* automata, char* lexeme);
+int scan(Automata* automata, char* lexeme);
 
 /**
  * Prints the infotmation held in the automata
  * @param automata
  */
 void print_automata(Automata* automata, char* automata_name);
+
 Token get_token(char* lexeme, Automata automatas[]);
 
 #endif //COMPILERS_PROJECT_GB_AUTOMATA_H

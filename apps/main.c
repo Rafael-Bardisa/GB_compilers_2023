@@ -8,12 +8,18 @@
 
 int main(int argc, char **argv){
 
+    char* test = "hello, world";
+    printf("%i: %s\n", strlen(test), test);
+    test += 5;  //move test pointer 5 chars in memory (sizeof char
+    printf("%i: %s", strlen(test), test);
+/*
     FILE * file = fopen(argv[1], "r");
+    // char file_str[fileSize(file)];
+
+    //read(file, fileSize(file), pointer);
     char character;
     char lexeme[255];
     int i = 0;
-    Token tokens[sizeof(file)];
-
     Automata keywords = load_automata("keywords.txt");
     Automata numbers = load_automata("numbers.txt");
     Automata operators = load_automata("operators.txt");
@@ -54,5 +60,6 @@ int main(int argc, char **argv){
     TKPRINT(&scan_result);
 
     //automata_info();
+     */
 
 }
