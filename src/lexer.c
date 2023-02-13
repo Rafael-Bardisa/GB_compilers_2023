@@ -41,7 +41,8 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
             accepted_token = FALSE;
             //get automata from lexer and initialize it
             Automata* current = &lexer->automatas[i];
-            start_automata(current);
+            //done implicitly in scan function
+            //start_automata(current);
 
             // store number of read characters in array
             int current_read = scan(current, contents, contents_len - content_idx);
@@ -76,10 +77,18 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
             }
             //get the smallest unrecognized token and print it
             Token bad_token = get_token(&lexer->automatas[min_read_chars_idx]);
-            print_token(&bad_token, outfile);
+
             //advance the contents pointer for next iterations
             content_idx += min_read_chars;
             contents += min_read_chars;
+
+            //quick fix for newline
+            if (*bad_token.lexeme == '\n') {
+                fprintf(outfile, "\n");
+            }
+            else{
+                print_token(&bad_token, outfile);
+            }
         }
 
     }

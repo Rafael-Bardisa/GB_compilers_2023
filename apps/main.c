@@ -26,12 +26,20 @@ int main(int argc, char **argv){
     printf("%i", *strtest ? 1 : 0);
 
     //must initialize as list of char*
-    char* files[3] = {"resources/literals.txt", "resources/numbers.txt", "resources/identifier.txt"};
-    Lexer lexer = create_lexer(files, 3);
+    char* files[7] = {
+            "resources/literals.txt",
+            "resources/numbers.txt",
+            "resources/identifier.txt",
+            "resources/special_char.txt",
+            "resources/types.txt",
+            "resources/operators.txt",
+            "resources/keywords.txt",
+    };
+    Lexer lexer = create_lexer(files, 7);
 
     printf("\n%s", FMT(CLEAR));
-    printf("%i\n", 1 << 30);
-    scan_str(&lexer, "1234_43\"hhhh\"8937213soyIdentifier", 33, stdout);
+    //scan_str(&lexer, "1234_43\"hhhh\"8937213soyIdentifier", 33, stdout);
+    scan_file(&lexer, "resources/my_test.c", "");
 
     printf("\n%i", opcount(&lexer));
 
