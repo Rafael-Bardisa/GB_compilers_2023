@@ -23,18 +23,21 @@ Automata create_automata(int num_states, char* accepted_chars, Category token_ty
     //create and return an automata
     Automata automata = {
             .token_type = token_type,
+            //TODO malloc returns an allocated pointer so it is not null but it must take into account possible overflows
+            .scanned = malloc(DEFAULT_LEXEME_LENGTH * sizeof(char)),
+            .lexeme_capacity = DEFAULT_LEXEME_LENGTH,
 
             .state_matrix = states,
             .num_states = num_states,
 
             //TODO black magic
             .at = NULL,
-            .scanned = {0},
 
             .alphabet = alphabet,
             .num_chars = num_chars,
 
             .current_state = 0,
+            .countop = 0,
     };
 
     return automata;
@@ -47,10 +50,13 @@ void free_automata(Automata* automata){
         free(automata->state_matrix[i]);
     }
     free(automata->state_matrix);
+    free(automata->scanned);
 }
 
 
 int save_automata(Automata* automata, char* file_path){
+    // some information is not needed to save, this is the minimum necessary to make the automata work
+    // default values can be (and are) set easy from code (i.e, default lexeme length)
     FILE *save_file = fopen(file_path, "w+");
 
     if (!save_file){
@@ -89,6 +95,7 @@ Automata load_automata(char* file_path){
 
     int num_states;
     //preemptively allocate enough space for reading the buffer
+    // assumes neither alphabet or category are larger than specified. If working with ascii, they should suffice
     char alphabet[512];
     char category[128];
     fscanf(save_file, "%i %s %s", &num_states, alphabet, category);
@@ -111,6 +118,8 @@ void start_automata(Automata* automata){
 int index_of(Automata* automata, char letter){
     // crawl over the automata alphabet and return the index if letter matches
     for(int i = 0; i < automata->num_chars - 1; i++){
+        //is a comparison operation
+        automata->countop++;
         if(automata->alphabet[i] == letter) return i;
     }
     // letter is not in the alphabet, return wildcard column
@@ -128,24 +137,39 @@ int advance(Automata* automata, char letter){
     return automata->current_state;
 }
 
-int scan(Automata* automata, char* lexeme){
+int scan(Automata* automata, char* lexeme, int lexeme_len){
     // set automata current index to 1
     start_automata(automata);
     //TODO support for lexemes with more than one token (i.e, whilehhhh should know while is a token)
-    int lexeme_len = strlen(lexeme);
+    //this can and should be passed as parameter for less computations
+    //int lexeme_len = strlen(lexeme);
 
     // iterate over lexeme, advance automata current state according to its DFA
     for (int i=0; i < lexeme_len; i++){
+        // advance to next automata state. Modifies automata current state
+        advance(automata, lexeme[i]);
+        //TODO realloc if i+1 > automata lexeme capacity
 
-
-        return i+1;
+        // token is not recognized if the automata is stuck or recognized if it is accepted and next character would not be.
+        if (stuck(automata) || (accept(automata) && !peek(automata, lexeme[i+1]))) {
+            //comparison determines lexeme has a token. Store it in the automata struct and return number of characters read
+            //strncpy is not used for comparison because we already know what the token is (lexeme[0:i])
+            strncpy(automata->scanned, lexeme, i+1);
+            return i + 1;
+        }
     }
-
+    // read all characters in lexeme
+    strncpy(automata->scanned, lexeme, lexeme_len);
+    return lexeme_len;
+    /*
     //if automata did not reach accepting state after crawling lexeme return null token
     if(automata->current_state != automata->num_states - 1){
         Token token = {0};
         return 0;
+
+
     }
+     */
     // lexeme is accepted, return a token
     Token token = {.lexeme = lexeme, .category = automata->token_type};
     return 0;
@@ -160,6 +184,7 @@ void print_automata(Automata* automata, char* automata_name){
 
     printf("%sNumber of states:%s\t%i\n", FMT(CLEAR), FMT(BLUE_B), automata->num_states);
     printf("%sAllowed characters:%s\t%s%s + %swildcard\n",FMT(CLEAR), FMT(BLUE_B), alphabet, FMT(CLEAR), FMT(MAGENTA));
+    printf("%sLexeme reserved space (bytes):%s\t%i%s\n",FMT(CLEAR), FMT(BLUE_B), automata->lexeme_capacity, FMT(CLEAR));
     printf("%sToken type:%s\t%s\n\n",FMT(CLEAR), FMT(BLUE_B), cat_to_str(&automata->token_type));
 
     printf("%sDFA matrix representation:\n\n\t", FMT(BLUE_B));
@@ -185,6 +210,18 @@ void print_automata(Automata* automata, char* automata_name){
 }
 
 //TODO review
+Token get_token(Automata* automata){
+    // if automata is not in accepting state, it did not recognize the lexeme
+    Category category = accept(automata) ? automata->token_type : CAT_NONRECOGNIZED;
+
+    // easy to understand if written like this
+    Token value = {
+            .lexeme = automata->scanned,
+            .category = category,
+    };
+
+    return value;
+}
 /*
 Token get_token(char* lexeme, Automata automatas[]){
     // keywords
@@ -220,3 +257,11 @@ Token get_token(char* lexeme, Automata automatas[]){
 
 }
 */
+
+bool stuck(Automata* automata){
+    return (automata->current_state == 0);
+}
+
+bool accept(Automata* automata){
+    return (automata->current_state == automata->num_states - 1);
+}

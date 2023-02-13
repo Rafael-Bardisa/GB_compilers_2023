@@ -11,6 +11,7 @@
 #include "tokens.h"
 
 #define ALPHABET "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ{}()[]+<>*=;,\"0123456789"
+#define DEFAULT_LEXEME_LENGTH 128
 
 /**
  * shorthand for print_automata
@@ -21,8 +22,11 @@
  * struct to conveniently store an automata
  */
 typedef struct automatus{
+    //does not directly store token but is easy to retrieve
     Category token_type;
-    Token scanned;
+    char* scanned;
+
+    int lexeme_capacity;
 
     int** state_matrix;
     int current_state;
@@ -33,8 +37,11 @@ typedef struct automatus{
 
     // number of columns in automata
     int num_chars;
-    //number of states in the DFA
+    // number of states in the DFA
     int num_states;
+
+    // number of comparison operations, should be equal to sum of all indexof
+    int countop;
 } Automata;
 
 /**
@@ -103,14 +110,36 @@ int advance(Automata* automata, char letter);
  * @param lexeme
  * @returns the number of characters read from lexeme
  */
-int scan(Automata* automata, char* lexeme);
+int scan(Automata* automata, char* lexeme, int lexeme_len);
 
 /**
  * Prints the infotmation held in the automata
  * @param automata
+ * @param lexeme
+ * @param lexeme_len the length of the lexeme string
+ * @return the number of characters read from lexeme
  */
 void print_automata(Automata* automata, char* automata_name);
 
-Token get_token(char* lexeme, Automata automatas[]);
+/**
+ * returns the token read by the automata. Handles automata state internally
+ * @param automata
+ * @return Token{automata.lexeme, category}
+ */
+Token get_token(Automata* automata);
+
+/**
+ * abstraction of automata.current_state == 0.
+ * @param automata
+ * @return true if automata.current state is 0 (i.e, the automata is stuck), else false
+ */
+bool stuck(Automata* automata);
+
+/**
+ * abstraction of automata.current_state == num_states - 1
+ * @param automata
+ * @return true if automata.current_state is last state (i.e, automata is in accepting state), else false
+ */
+bool accept(Automata* automata);
 
 #endif //COMPILERS_PROJECT_GB_AUTOMATA_H

@@ -8,10 +8,20 @@
 
 int main(int argc, char **argv){
 
+    bool test2 = FALSE;
     char* test = "hello, world";
     printf("%i: %s\n", strlen(test), test);
     test += 5;  //move test pointer 5 chars in memory (sizeof char
-    printf("%i: %s", strlen(test), test);
+    if(test2) {
+        printf("%i: %s", strlen(test), test);
+    }
+    Automata keywords = load_automata("resources/keywords.txt");
+    automata_info(keywords);
+
+    printf("%i",scan(&keywords, "whilekarlos", 11));
+    Token token = get_token(&keywords);
+    TKPRINT(&token);
+    return 0;
 /*
     FILE * file = fopen(argv[1], "r");
     // char file_str[fileSize(file)];
