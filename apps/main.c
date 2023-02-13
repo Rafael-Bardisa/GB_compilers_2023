@@ -31,13 +31,17 @@ int main(int argc, char **argv){
     do{
         character = fgetc(file);
         //TODO: keywords followed by ()?...
-        if(character != ' ' || scan(&operators, &character).category != CAT_OPERAND || scan(&special_chars, &character).category != CAT_SPECIALCHAR) {
+        if(character != ' ') {
             character = fgetc(file);
             lexeme[i] = character;
             i++;
             Token token = get_token(lexeme, automata_arr );
-        }
-        else if (scan(&operators, &character).category == CAT_OPERAND) {
+            current_cat = token.category;
+            if(prev_cat != current_cat && prev_cat == CAT_NONRECOGNIZED ){ //this for identifiers/types
+                write
+                prev_cat = current_cat;
+            }
+            else if(prev_cat != c)
 
         }
 
