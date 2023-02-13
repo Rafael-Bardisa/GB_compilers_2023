@@ -24,13 +24,14 @@ typedef enum bool_{
     false = FALSE,
     true = TRUE,
 } bool;
-/*
-typedef union Iter{
-    int i;
-    char c;
-    double d;
-    float f;
-} iter;
-*/
+
+/**
+ * Given a file, return the length of the file in bytes (equivalent to characters if file is encoded in ASCII)<br>
+ * Resets the file position indicator back to the start of the file!
+ * @param infile pointer to the file to calculate the length of
+ * @return the length of the file in characters
+ * TODO error checking
+ */
+int file_size(FILE* infile);
 
 #endif //COMPILERS_COMMON_H

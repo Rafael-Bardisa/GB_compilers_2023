@@ -9,15 +9,6 @@
 #include "common.h"
 
 /**
- * Given a file, return the length of the file in characters.
- * Resets the file position indicator back to the start of the file!
- * @param infile pointer to the file to calculate the length of
- * @return the length of the file in characters
- * TODO error checking
- */
-int fileSize(FILE* infile);
-
-/**
  * Removes all comments from infile and stores the result in outfile. Closes infile upon completion
  * Assumes file pointers are valid.
  * Helper function for removeComments

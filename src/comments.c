@@ -1,17 +1,6 @@
 #include "comments.h"
 #include "common.h"
 
-int fileSize(FILE* infile){
-
-    fseek(infile, 0L, SEEK_END);
-
-    //narrowing conversion, may not be a problem
-    int size = ftell(infile);
-    rewind(infile);
-
-    return size;
-}
-
 char* removeCommentsFile(FILE *infile, char* buffer){
     // keep track of whether we are looking at a comment or not
     int lineComment = FALSE;
@@ -123,7 +112,7 @@ int removeComments(char* infilePath, char* outfilePath) {
         return -1;
     }
     // create a buffer to store infile without comments
-    int size = fileSize(infile);
+    int size = file_size(infile);
     // +1 for '\0'
     char buffer[size + 1];
 

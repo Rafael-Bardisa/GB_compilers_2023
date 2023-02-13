@@ -8,6 +8,8 @@
 
 int main(int argc, char **argv){
 
+    char* strtest = "";
+
     bool test2 = FALSE;
     char* test = "hello, world";
     printf("%i: %s\n", strlen(test), test);
@@ -21,6 +23,7 @@ int main(int argc, char **argv){
     printf("%i",scan(&keywords, "whilekarlos", 11));
     Token token = get_token(&keywords);
     TKPRINT(&token);
+    printf("%i", *strtest ? 1 : 0);
     return 0;
 /*
     FILE * file = fopen(argv[1], "r");
