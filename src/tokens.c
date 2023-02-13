@@ -3,7 +3,7 @@
 //
 #include "tokens.h"
 
-Token create_token(char* lexeme, Category cat){
+Token create_token(const char* lexeme, Category cat){
     Token token = {.lexeme = lexeme, .category = cat};
     return token;
 }

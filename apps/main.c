@@ -31,35 +31,18 @@ int main(int argc, char **argv){
     do{
         character = fgetc(file);
         //TODO: keywords followed by ()?...
-        if(character != ' '){
+        if(character != ' ' || scan(&operators, &character).category != CAT_OPERAND || scan(&special_chars, &character).category != CAT_SPECIALCHAR) {
             character = fgetc(file);
             lexeme[i] = character;
             i++;
             Token token = get_token(lexeme, automata_arr );
-            current_cat = token.category;
-            if(prev_cat == current_cat ){
+        }
+        else if (scan(&operators, &character).category == CAT_OPERAND) {
 
-            }
         }
 
     } while (character != feof);
 
-
-
-    /*  Automata test = create_automata(3, "abcdef", CAT_LITERAL);
-
-    int** matrix = test.state_matrix;
-
-    for (int i = 0; i < 3; i++){
-        for (int j = 0; j < 6; j++){
-            printf("%s%i",FMT(BOLD, ITALICS, DASH) ,matrix[i][j]);
-        }
-    }
-
-    printf("%s%i%s\n", FMT(WHITE_BG, BLACK), index_of(&test, 'a'), FMT(CLEAR));
-    save_automata(&test, "test.txt");
-    free_automata(&test);
-    */
 
     //TODO relative paths, sync both CMake and Makefile builds
 

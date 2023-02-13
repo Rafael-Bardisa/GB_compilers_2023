@@ -26,7 +26,7 @@ typedef struct token {
     char* lexeme;
     Category category;
 } Token;
-Token create_token(char* lexeme, Category cat);
+Token create_token(const char* lexeme, Category cat);
 
 
 /**
