@@ -7,8 +7,8 @@
 
 #include "comments.h"
 #include "common.h"
-#include "automata.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include "lexer.h"
 #endif //COMPILERS_MAIN_H
 

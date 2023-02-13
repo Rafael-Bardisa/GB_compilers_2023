@@ -17,13 +17,24 @@ int main(int argc, char **argv){
     if(test2) {
         printf("%i: %s", strlen(test), test);
     }
-    Automata keywords = load_automata("resources/keywords.txt");
+    Automata keywords = load_automata("resources/numbers.txt");
     automata_info(keywords);
 
-    printf("%i",scan(&keywords, "whilekarlos", 11));
+    printf("%i",scan(&keywords, "_234", 11));
     Token token = get_token(&keywords);
     TKPRINT(&token);
     printf("%i", *strtest ? 1 : 0);
+
+    //must initialize as list of char*
+    char* files[3] = {"resources/literals.txt", "resources/numbers.txt", "resources/identifier.txt"};
+    Lexer lexer = create_lexer(files, 3);
+
+    printf("\n%s", FMT(CLEAR));
+    printf("%i\n", 1 << 30);
+    scan_str(&lexer, "1234_43\"hhhh\"8937213soyIdentifier", 33, stdout);
+
+    printf("\n%i", opcount(&lexer));
+
     return 0;
 /*
     FILE * file = fopen(argv[1], "r");

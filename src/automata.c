@@ -140,7 +140,6 @@ int advance(Automata* automata, char letter){
 int scan(Automata* automata, char* lexeme, int lexeme_len){
     // set automata current index to 1
     start_automata(automata);
-    //TODO support for lexemes with more than one token (i.e, whilehhhh should know while is a token)
     //this can and should be passed as parameter for less computations
     //int lexeme_len = strlen(lexeme);
 
@@ -155,6 +154,7 @@ int scan(Automata* automata, char* lexeme, int lexeme_len){
             //comparison determines lexeme has a token. Store it in the automata struct and return number of characters read
             //strncpy is not used for comparison because we already know what the token is (lexeme[0:i])
             strncpy(automata->scanned, lexeme, i+1);
+            automata->scanned[i+1] = '\0';
             return i + 1;
         }
     }

@@ -25,8 +25,66 @@ void free_lexer(Lexer* lexer){
 }
 
 int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
+    //TODO may not work 100%
+    //relative content index
+    int content_idx = 0;
+    bool accepted_token;
+
+    int read_chars[lexer->num_automatas];
+
+    //this loop will iterate through all characters in contents. Comparison done internally by the automatas
+    // two main parts for algorithm: if any automata finds token and if none do
+    while (content_idx != contents_len){
+        // all automatas scan contents until either they identify a valid token or they get stuck
+        // breaks early if a token is valid
+        for(int i = 0; i < lexer->num_automatas; i++){
+            accepted_token = FALSE;
+            //get automata from lexer and initialize it
+            Automata* current = &lexer->automatas[i];
+            start_automata(current);
+
+            // store number of read characters in array
+            int current_read = scan(current, contents, contents_len - content_idx);
+            read_chars[i] = current_read;
+
+            // read the token from the automata
+            Token read_token = get_token(current);
+
+            // if the token is valid, we assume no other automatas can parse a token from contents
+            if(read_token.category != CAT_NONRECOGNIZED){
+                //store the token in outfile
+                accepted_token = TRUE;
+                print_token(&read_token, outfile);
+                //advance the contents pointer for next iterations
+                content_idx += current_read;
+                contents += current_read;
+
+                //break for loop, we don't need to check remaining automatas
+                break;
+            }
+        }
+        // if token was not accepted, find the smallest unrecognized token and advance contents pointer
+        if (!accepted_token){
+            //very big number
+            int min_read_chars = 1 << 30;
+            int min_read_chars_idx;
+            for(int i = 0; i < lexer->num_automatas; i++){
+                if (read_chars[i] < min_read_chars){
+                    min_read_chars = read_chars[i];
+                    min_read_chars_idx = i;
+                }
+            }
+            //get the smallest unrecognized token and print it
+            Token bad_token = get_token(&lexer->automatas[min_read_chars_idx]);
+            print_token(&bad_token, outfile);
+            //advance the contents pointer for next iterations
+            content_idx += min_read_chars;
+            contents += min_read_chars;
+        }
+
+    }
     //TODO
-    return -1;
+    return 0;
 }
 
 int scan_file(Lexer* lexer, char* infile, char* outfile){
@@ -39,7 +97,6 @@ int scan_file(Lexer* lexer, char* infile, char* outfile){
 
     //if outfile is an empty string ("") redirect output to stdout
     bool outfile_defined = *outfile != '\0';
-
     FILE* output_file = outfile_defined ? fopen(outfile, "w+") : stdout;
 
     int return_status = scan_str(lexer, buffer, file_len, output_file);
