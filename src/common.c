@@ -15,12 +15,20 @@ int file_size(FILE* infile){
     return size;
 }
 
-char* concat(char* input_file){
+// dumb function to concat two strings
+char* add_scn(const char* input_file){
     char output_file[250];
     int i = 0;
-    while (&input_file[i] != '\n' ){
-
+    char* scn = "scn";
+    while (input_file[i] != '\0' ){
+        output_file[i] = input_file[i];
+        i++;
     }
+    for(int j = 0; j<3; j++){
+        output_file[i] = scn[j];
+        i++;
+    }
+    output_file[i] = '\0';
 
     return output_file;
 }

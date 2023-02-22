@@ -34,5 +34,6 @@ typedef enum bool_{
  * TODO error checking
  */
 int file_size(FILE* infile);
+char* add_scn(const char* input_file);
 
 #endif //COMPILERS_COMMON_H
