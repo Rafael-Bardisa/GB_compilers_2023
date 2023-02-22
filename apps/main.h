@@ -10,5 +10,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "lexer.h"
+
+#include "optional.h"
 #endif //COMPILERS_MAIN_H
 

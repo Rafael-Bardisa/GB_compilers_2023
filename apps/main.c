@@ -4,20 +4,32 @@
 
 #include "main.h"
 
-
+Option_int test(){
+    Option_int result = {
+            .ok = TRUE,
+            .value = 3,
+    };
+    return result;
+}
 
 int main(int argc, char **argv){
 
     char* strtest = "";
 
+    Option_int int_test = test();
+    if (!int_test.ok) return -1;
+    FILE * file = fopen("", "r");
+    int result_value = int_test.value;
+    printf("%s%i%s\n", FMT(MAGENTA, WHITE_BG), result_value, FMT(CLEAR));
+
     bool test2 = FALSE;
     char* test = "hello, world";
-    printf("%i: %s\n", strlen(test), test);
+    printf("%lu: %s\n", strlen(test), test);
     test += 5;  //move test pointer 5 chars in memory (sizeof char
     if(test2) {
         printf("%i: %s", strlen(test), test);
     }
-    Automata keywords = load_automata("resources/numbers.txt");
+    Automata keywords = load_automata("resources/keywords.txt");
     automata_info(keywords);
 
     printf("%i",scan(&keywords, "_234", 11));
