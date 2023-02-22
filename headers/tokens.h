@@ -19,7 +19,6 @@ typedef enum category{
     CAT_OPERAND,
     CAT_TYPE,
     CAT_SPECIALCHAR,
-    CAT_NULL
 } Category;
 
 typedef struct token {
