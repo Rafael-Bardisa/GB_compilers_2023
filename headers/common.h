@@ -20,6 +20,7 @@
 #define SIGMA "\U000003A3"
 #define getName(var) #var
 
+
 typedef enum bool_{
     false = FALSE,
     true = TRUE,

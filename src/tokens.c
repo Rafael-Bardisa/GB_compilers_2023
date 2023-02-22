@@ -12,7 +12,7 @@ void print_token(Token* token, FILE *fd){
     // string representation of token->category
     char* repr = cat_to_str(&token->category);
 
-    fprintf(fd, "<%s, %s>", token->lexeme, repr);
+    fprintf(fd, "<%s, %s> ", token->lexeme, repr);
 }
 
 

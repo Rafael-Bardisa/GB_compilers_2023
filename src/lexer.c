@@ -29,9 +29,10 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
     //relative content index
     int content_idx = 0;
     bool accepted_token;
+    int num_line = 1;
+    int elem_inline = 0;
 
     int read_chars[lexer->num_automatas];
-
     //this loop will iterate through all characters in contents. Comparison done internally by the automatas
     // two main parts for algorithm: if any automata finds token and if none do
     while (content_idx != contents_len){
@@ -60,7 +61,12 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
             if(read_token.category != CAT_NONRECOGNIZED){
                 //store the token in outfile
                 accepted_token = TRUE;
+                if(elem_inline == 0){
+                    fprintf(outfile, "%i. ", num_line);
+                }
                 print_token(&read_token, outfile);
+                elem_inline++;
+
                 //advance the contents pointer for next iterations
                 content_idx += current_read;
                 contents += current_read;
@@ -89,22 +95,30 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
 
             //quick fix for newline
             if (*bad_token.lexeme == '\n') {
+                num_line++;
+                elem_inline = 0;
                 fprintf(outfile, "\n");
+
             }
 
             else{
+                //TODO IDK IF IT EVER GETS HERE
+                if(elem_inline == 0){
+                    fprintf(outfile, "%i. ", num_line);
+                }
                 print_token(&bad_token, outfile);
+                elem_inline++;
             }
         }
 
     }
-    //TODO
     return 0;
 }
 
-int scan_file(Lexer* lexer, char* infile, char* outfile){
+int scan_file(Lexer* lexer, char* infile){
     FILE* input_file = fopen(infile, "r");
     int file_len = file_size(input_file);
+    char* outfile = ;
     //TODO +1?
     char buffer[file_len];
     fread(buffer, file_len, 1, input_file);

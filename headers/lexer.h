@@ -44,7 +44,7 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile);
  * @param outfile the file to store the result at. Can be stdout
  * @return status return. 0 is good
  */
-int scan_file(Lexer* lexer, char* infile, char* outfile);
+int scan_file(Lexer* lexer, char* infile);
 
 /**
  * count comparison operations performed by a lexer since its creation

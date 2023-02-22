@@ -53,7 +53,6 @@ void free_automata(Automata* automata){
     free(automata->scanned);
 }
 
-
 int save_automata(Automata* automata, char* file_path){
     // some information is not needed to save, this is the minimum necessary to make the automata work
     // default values can be (and are) set easy from code (i.e, default lexeme length)

@@ -14,3 +14,13 @@ int file_size(FILE* infile){
 
     return size;
 }
+
+char* concat(char* input_file){
+    char output_file[250];
+    int i = 0;
+    while (&input_file[i] != '\n' ){
+
+    }
+
+    return output_file;
+}

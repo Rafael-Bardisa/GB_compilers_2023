@@ -29,11 +29,11 @@ int main(int argc, char **argv){
     };
     Lexer lexer = create_lexer(files, 7);
 
-    printf("\n%s", FMT(CLEAR));
-    //scan_str(&lexer, "1234_43\"hhhh\"8937213soyIdentifier", 33, stdout);
-    scan_file(&lexer, "resources/my_test.c", "");
 
-    printf("\nThe number of operations is: %i. \n", opcount(&lexer));
+
+    printf("\n%s", FMT(CLEAR));
+    scan_file(&lexer, "resources/my_test.c");
+    printf("\n\nThe number of operations is: %i. \n", opcount(&lexer));
 
     return 0;
 /*
