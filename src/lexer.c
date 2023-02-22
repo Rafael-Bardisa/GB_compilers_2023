@@ -35,6 +35,11 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
     //this loop will iterate through all characters in contents. Comparison done internally by the automatas
     // two main parts for algorithm: if any automata finds token and if none do
     while (content_idx != contents_len){
+        if (*contents == ' '){
+            content_idx++;
+            contents++;
+            continue;
+        }
         // all automatas scan contents until either they identify a valid token or they get stuck
         // breaks early if a token is valid
         for(int i = 0; i < lexer->num_automatas; i++){
@@ -86,6 +91,7 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
             if (*bad_token.lexeme == '\n') {
                 fprintf(outfile, "\n");
             }
+
             else{
                 print_token(&bad_token, outfile);
             }

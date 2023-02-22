@@ -33,7 +33,7 @@ int main(int argc, char **argv){
     //scan_str(&lexer, "1234_43\"hhhh\"8937213soyIdentifier", 33, stdout);
     scan_file(&lexer, "resources/my_test.c", "");
 
-    printf("\n The number of operations is: %i. \n", opcount(&lexer));
+    printf("\nThe number of operations is: %i. \n", opcount(&lexer));
 
     return 0;
 /*
