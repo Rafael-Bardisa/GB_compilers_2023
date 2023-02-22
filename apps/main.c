@@ -14,28 +14,8 @@ Option_int test(){
 
 int main(int argc, char **argv){
 
-    char* strtest = "";
-
-    Option_int int_test = test();
-    if (!int_test.ok) return -1;
-    FILE * file = fopen("", "r");
-    int result_value = int_test.value;
-    printf("%s%i%s\n", FMT(MAGENTA, WHITE_BG), result_value, FMT(CLEAR));
-
-    bool test2 = FALSE;
-    char* test = "hello, world";
-    printf("%lu: %s\n", strlen(test), test);
-    test += 5;  //move test pointer 5 chars in memory (sizeof char
-    if(test2) {
-        printf("%i: %s", strlen(test), test);
-    }
     Automata keywords = load_automata("resources/keywords.txt");
     automata_info(keywords);
-
-    printf("%i",scan(&keywords, "_234", 11));
-    Token token = get_token(&keywords);
-    TKPRINT(&token);
-    printf("%i", *strtest ? 1 : 0);
 
     //must initialize as list of char*
     char* files[7] = {
@@ -53,7 +33,7 @@ int main(int argc, char **argv){
     //scan_str(&lexer, "1234_43\"hhhh\"8937213soyIdentifier", 33, stdout);
     scan_file(&lexer, "resources/my_test.c", "");
 
-    printf("\n%i", opcount(&lexer));
+    printf("\n The number of operations is: %i. \n", opcount(&lexer));
 
     return 0;
 /*
