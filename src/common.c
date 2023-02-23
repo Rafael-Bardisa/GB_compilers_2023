@@ -15,20 +15,41 @@ int file_size(FILE* infile){
     return size;
 }
 
-// dumb function to concat two strings
-char* add_scn(const char* input_file){
-    char output_file[250];
-    int i = 0;
-    char* scn = "scn";
-    while (input_file[i] != '\0' ){
-        output_file[i] = input_file[i];
-        i++;
-    }
-    for(int j = 0; j<3; j++){
-        output_file[i] = scn[j];
-        i++;
-    }
-    output_file[i] = '\0';
+char* join_(char* buffer, int argc, ...){
+    buffer[0] = '\0';
 
-    return output_file;
+    va_list argv;
+    int i;
+
+    // initialize argv to get data from the variable arguments
+    va_start(argv, argc);
+
+    /* access all the arguments assigned to valist */
+    for (i = 0; i < argc; i++) {
+    // retrieve ansi code and concatenate into buffer
+    strcat(buffer, va_arg(argv, char*));
+    }
+    /* clean memory reserved for valist */
+    va_end(argv);
+
+    return buffer;
+}
+
+size_t joint_len(int argc, ...){
+    size_t length = 1;
+
+    va_list argv;
+
+    // initialize argv to get data from the variable arguments
+    va_start(argv, argc);
+
+    /* access all the arguments assigned to valist */
+    for (int i = 0; i < argc; i++) {
+        // retrieve ansi code and concatenate into buffer
+        length += strlen(va_arg(argv, char*));
+    }
+    /* clean memory reserved for valist */
+    va_end(argv);
+
+    return length;
 }

@@ -13,6 +13,15 @@ Option_int test(){
 }
 
 int main(int argc, char **argv){
+    for(int i = 0; i < argc; i++){
+        printf("%s", argv[i]);
+    }
+
+    char* infile = argv[1];
+
+    join(outfile, infile, "scn");
+
+    FMT(RED, BLUE, YELLOW_BG);
 
     Automata keywords = load_automata("resources/keywords.txt");
     automata_info(keywords);
@@ -31,7 +40,7 @@ int main(int argc, char **argv){
 
 
     printf("\n%s", FMT(CLEAR));
-    scan_file(&lexer, "resources/my_test.c");
+    scan_file(&lexer, infile, outfile);
     printf("\n\nThe number of operations is: %i. \n", opcount(&lexer));
 
     return 0;

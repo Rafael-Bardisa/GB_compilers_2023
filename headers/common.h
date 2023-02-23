@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
 //ultimate flex
 #include "foreach.h"
@@ -16,6 +17,13 @@
 
 #define TRUE 1
 #define FALSE 0
+
+#define NARGS(...) (sizeof((char*[]){__VA_ARGS__})/sizeof(char*))
+/**
+ * create and write into buffer the string concatenations of the next n arguments.
+ */
+#define join(buffer, ...) char buffer[joint_len(NARGS(__VA_ARGS__), __VA_ARGS__)]; \
+join_(buffer, NARGS(__VA_ARGS__), __VA_ARGS__);
 
 #define SIGMA "\U000003A3"
 #define getName(var) #var
@@ -34,6 +42,23 @@ typedef enum bool_{
  * TODO error checking
  */
 int file_size(FILE* infile);
-char* add_scn(const char* input_file);
+
+/**
+ * join a variadic list of strings into buffer argument
+ * @param buffer
+ * @param argc
+ * @param ...
+ * @return
+ */
+char* join_(char* buffer, int argc, ...);
+
+/**
+ * get joint length of all strings in variadic arguments
+ * @param buffer
+ * @param argc
+ * @param ...
+ * @return
+ */
+size_t joint_len(int argc, ...);
 
 #endif //COMPILERS_COMMON_H

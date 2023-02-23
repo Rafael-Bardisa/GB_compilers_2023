@@ -116,10 +116,10 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
     return 0;
 }
 
-int scan_file(Lexer* lexer, char* infile){
+int scan_file(Lexer* lexer, char* infile, char* outfile){
     FILE* input_file = fopen(infile, "r");
     int file_len = file_size(input_file);
-    char* outfile = add_scn(infile);
+
     char buffer[file_len];
     fread(buffer, file_len, 1, input_file);
     fclose(input_file);
