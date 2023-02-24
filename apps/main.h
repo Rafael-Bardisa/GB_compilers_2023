@@ -12,5 +12,6 @@
 #include "lexer.h"
 
 #include "optional.h"
+#include "result.h"
 #endif //COMPILERS_MAIN_H
 

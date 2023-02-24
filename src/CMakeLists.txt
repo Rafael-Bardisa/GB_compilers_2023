@@ -10,7 +10,7 @@ message(STATUS "building from source dir ${COMPILERS_PROJECT_GB_SOURCE_DIR}")
 message(STATUS "Creating library from files ${HEADER_LIST}")
 message(STATUS "Creating library from files ${SOURCE_LIST}")
 
-add_library(gb_lib ${SOURCE_LIST} ${HEADER_LIST} common.c)
+add_library(gb_lib ${SOURCE_LIST} ${HEADER_LIST})
 
 # We need this directory, and users of our library will need it too
 target_include_directories(gb_lib PUBLIC ../headers)

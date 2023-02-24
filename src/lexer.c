@@ -117,7 +117,15 @@ int scan_str(Lexer* lexer, char* contents, int contents_len, FILE* outfile){
 }
 
 int scan_file(Lexer* lexer, char* infile, char* outfile){
-    FILE* input_file = fopen(infile, "r");
+
+    //use custom result type to check for errors when opening file
+    Result_file open_file = file_open(infile, "r");
+
+    if (open_file.status != OK){
+        explain_error(open_file);
+    }
+
+    FILE* input_file = open_file.value;
     int file_len = file_size(input_file);
 
     char buffer[file_len];
@@ -126,7 +134,18 @@ int scan_file(Lexer* lexer, char* infile, char* outfile){
 
     //if outfile is an empty string ("") redirect output to stdout
     bool outfile_defined = *outfile != '\0';
-    FILE* output_file = outfile_defined ? fopen(outfile, "w+") : stdout;
+
+    FILE* output_file;
+    if (outfile_defined) {
+        open_file = file_open(outfile, "w+");
+
+        if (open_file.status != OK) {
+            explain_error(open_file);
+        }
+
+        output_file = open_file.value;
+    }
+    else output_file = stdout;
 
     int return_status = scan_str(lexer, buffer, file_len, output_file);
     // do not close if file* is stdout

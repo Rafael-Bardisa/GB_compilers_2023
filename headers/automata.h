@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 #include "common.h"
+#include "result.h"
 #include "tokens.h"
 
 #define ALPHABET "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ{}()[]+<>*=;,\"0123456789"

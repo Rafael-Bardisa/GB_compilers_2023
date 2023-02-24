@@ -56,15 +56,15 @@ void free_automata(Automata* automata){
 int save_automata(Automata* automata, char* file_path){
     // some information is not needed to save, this is the minimum necessary to make the automata work
     // default values can be (and are) set easy from code (i.e, default lexeme length)
-    FILE *save_file = fopen(file_path, "w+");
 
-    if (!save_file){
-        fprintf(stdout, "%sERROR SAVING AUTOMATA: %snull file pointer\n", FMT(BOLD, RED), FMT(UNDERLINE_L));
-        return -1;
+    //use custom result type to check for errors when opening file
+    Result_file open_file = file_open(file_path, "w+");
+
+    if (open_file.status != OK){
+        explain_error(open_file);
     }
 
-    //fallback if fprintf doesn't work
-    int file_ref = fileno(save_file);
+    FILE* save_file = open_file.value;
 
     // information header for later correct retrieval of the automata
     fprintf(save_file, "%i %s %s\n", automata->num_states, automata->alphabet, cat_to_str(&automata->token_type));
@@ -84,13 +84,15 @@ int save_automata(Automata* automata, char* file_path){
 }
 
 Automata load_automata(char* file_path){
-    FILE *save_file = fopen(file_path, "r");
 
-    if (!save_file){
-        fprintf(stdout, "%sERROR LOADING AUTOMATA: %snull file pointer%s\n", FMT(BOLD, RED), FMT(UNDERLINE_L), FMT(CLEAR));
-        // this should be null
-        return (Automata){0};
+    //use custom result type to check for errors when opening file
+    Result_file open_file = file_open(file_path, "r");
+
+    if (open_file.status != OK){
+        explain_error(open_file);
     }
+
+    FILE *save_file = open_file.value;
 
     int num_states;
     //preemptively allocate enough space for reading the buffer
@@ -107,6 +109,7 @@ Automata load_automata(char* file_path){
         }
     }
 
+    fclose(save_file);
     return automata;
 }
 
