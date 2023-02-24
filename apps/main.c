@@ -19,7 +19,6 @@ int main(int argc, char **argv){
 
     char* infile = argv[1];
 
-    join(outfile, infile, "scn");
 
     FMT(RED, BLUE, YELLOW_BG);
 
@@ -40,8 +39,15 @@ int main(int argc, char **argv){
 
 
     printf("\n%s", FMT(CLEAR));
-    scan_file(&lexer, infile, outfile);
-    printf("\n\nThe number of operations is: %i. \n", opcount(&lexer));
+
+    if(infile == NULL){
+        printf("Error 0: No file present, check man page.\n");
+    }
+    else{
+        join(outfile, infile, "scn");
+        scan_file(&lexer, infile, outfile);
+        printf("\n\nThe number of operations is: %i. \n", opcount(&lexer));
+    }
 
     return 0;
 /*
@@ -93,5 +99,4 @@ int main(int argc, char **argv){
 
     //automata_info();
      */
-
 }
