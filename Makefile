@@ -21,4 +21,10 @@ $(OBJ)/%.o: $(SRC)/%.c $(HDR)/*.h
 	$(CC) $(DEFINES) -I$(SRC) -I$(HDR) -c $< -o $@
 
 clean:
+	echo $(RESOURCES)
 	find . -type f -name '*.gch' -exec rm {} +
+
+clone_resources:
+	cp -r resources binaries
+
+all: binaries/gb_project clone_resources
