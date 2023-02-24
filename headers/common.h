@@ -42,23 +42,22 @@ typedef enum bool_{
  * @return the length of the file in characters
  * TODO error checking
  */
-int file_size(FILE* infile);
+size_t file_size(FILE* infile);
 
 /**
  * join a variadic list of strings into buffer argument
- * @param buffer
- * @param argc
- * @param ...
- * @return
+ * @param buffer where to store the concatenation of all strigns
+ * @param argc number of strings to concatenate
+ * @param ... the strings to concatenate
+ * @return same buffer pointer
  */
 char* join_(char* buffer, int argc, ...);
 
 /**
  * get joint length of all strings in variadic arguments
- * @param buffer
- * @param argc
- * @param ...
- * @return
+ * @param argc number of strings
+ * @param ... the (null terminated) strings
+ * @return joint size of all strings
  */
 size_t joint_len(int argc, ...);
 
