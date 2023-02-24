@@ -21,27 +21,26 @@
 /**
  * struct to conveniently store an automata
  */
-typedef struct automatus{
+typedef struct automata{
     //does not directly store token but is easy to retrieve
-    Category token_type;
-    char* scanned;
+    Category token_type;    //which type of token is the automata supposed to scan
+    char* scanned;  //char buffer to store read characters from a string. Not realloced because it's been given reasonable capacity
 
-    int lexeme_capacity;
+    int lexeme_capacity;    //capacity of scanned buffer. Dynamic change is not implemented, all tokens should be at most this length
 
-    int** state_matrix;
-    int current_state;
+    int** state_matrix; //matrix representation of the automata's associated DFA. Current implementation allows for only ONE accepting state.
+    int current_state;  //which state the automata is currently at.
 
-    int* at;
+    int* at;    //unused
 
-    char* alphabet;
+    char* alphabet;//list of characters that define transitions in the automata. Internally, there is an extra "wildcard" character for characters not in the list.
 
-    // number of columns in automata
-    int num_chars;
-    // number of states in the DFA
-    int num_states;
 
-    // number of comparison operations, should be equal to sum of all indexof
-    int countop;
+    int num_chars;  // number of columns in automata
+
+    int num_states; // number of states in the DFA
+
+    int countop;    // number of comparison operations, should be equal to sum of all indexof
 } Automata;
 
 /**

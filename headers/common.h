@@ -9,7 +9,6 @@
 #include <string.h>
 #include <stdarg.h>
 
-//ultimate flex
 #include "foreach.h"
 #include "format.h"
 
@@ -20,7 +19,7 @@
 
 #define NARGS(...) (sizeof((char*[]){__VA_ARGS__})/sizeof(char*))
 /**
- * create and write into buffer the string concatenations of the next n arguments.
+ * ugly way to create and write into a buffer the string concatenations of the next n arguments.
  */
 #define join(buffer, ...) char buffer[joint_len(NARGS(__VA_ARGS__), __VA_ARGS__)]; \
 join_(buffer, NARGS(__VA_ARGS__), __VA_ARGS__);
@@ -28,7 +27,9 @@ join_(buffer, NARGS(__VA_ARGS__), __VA_ARGS__);
 #define SIGMA "\U000003A3"
 #define getName(var) #var
 
-
+/**
+ * bool structure if needed
+ */
 typedef enum bool_{
     false = FALSE,
     true = TRUE,

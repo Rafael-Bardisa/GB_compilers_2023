@@ -3,6 +3,7 @@
 //
 
 //TODO has little errors, only use when 100% sure it working to avoid unnecesarily difficult bugs
+//also, unused
 
 #ifndef COMPILERS_FOREACH_H
 #define COMPILERS_FOREACH_H
