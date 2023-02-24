@@ -5,7 +5,7 @@
 #ifndef COMPILERS_FORMAT_H
     #define COMPILERS_FORMAT_H
 
-    #ifdef NO_FMT
+    #ifdef NO_FMT   //disables the FMT macro
         #define FMT(...) ""
     #else
 
@@ -17,10 +17,12 @@
          */
         #define FARGS(...)  (sizeof((char*[]){__VA_ARGS__})/sizeof(char*))
 
-        #define FMT_BUF_SIZE 64
-
         /**
-         * Automatically fills in parameters buffer and argc for the format function. Buffer is a global variable, therefore it is never out of scope.
+         * Generates an ANSI format string from a variadic list of defined format style macros.<br>
+         * example use:
+         * @code
+         * printf("%sHello, %sWorld!%s", FMT(RED, WHITE_BG), FMT(BLUE, BLACK_BG), FMT(CLEAR));
+         * @endcode
          */
         #define FMT(...) \
         format((char[4*FARGS(__VA_ARGS__) + sizeof(FMT_START) + sizeof(FMT_END) + 1]){""}, FARGS(__VA_ARGS__), __VA_ARGS__)
@@ -115,7 +117,7 @@
          * creates a format string based on input parameters.
          * @param argc the number of ansi flags to use
          * @param buffer the buffer to write the format string into. A size of 64 should be enough for most reasonable uses
-         * @param ... the ansi flags to use. Examples include RED, BLUE, DASH, etc
+         * @param ... the variadic ansi flags to use. Examples include RED, BLUE, DASH, etc
          * @return the same pointer buffer, for ease of use in printf functions
          */
         char* format(char* buffer, int argc, ...);

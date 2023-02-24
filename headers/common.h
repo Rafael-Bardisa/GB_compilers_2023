@@ -9,7 +9,6 @@
 #include <string.h>
 #include <stdarg.h>
 
-//ultimate flex
 #include "foreach.h"
 #include "format.h"
 
@@ -20,7 +19,7 @@
 
 #define NARGS(...) (sizeof((char*[]){__VA_ARGS__})/sizeof(char*))
 /**
- * create and write into buffer the string concatenations of the next n arguments.
+ * ugly way to create and write into a buffer the string concatenations of the next n arguments.
  */
 #define join(buffer, ...) char buffer[joint_len(NARGS(__VA_ARGS__), __VA_ARGS__)]; \
 join_(buffer, NARGS(__VA_ARGS__), __VA_ARGS__);
@@ -28,7 +27,9 @@ join_(buffer, NARGS(__VA_ARGS__), __VA_ARGS__);
 #define SIGMA "\U000003A3"
 #define getName(var) #var
 
-
+/**
+ * bool structure if needed
+ */
 typedef enum bool_{
     false = FALSE,
     true = TRUE,
@@ -41,23 +42,22 @@ typedef enum bool_{
  * @return the length of the file in characters
  * TODO error checking
  */
-int file_size(FILE* infile);
+size_t file_size(FILE* infile);
 
 /**
  * join a variadic list of strings into buffer argument
- * @param buffer
- * @param argc
- * @param ...
- * @return
+ * @param buffer where to store the concatenation of all strigns
+ * @param argc number of strings to concatenate
+ * @param ... the strings to concatenate
+ * @return same buffer pointer
  */
 char* join_(char* buffer, int argc, ...);
 
 /**
  * get joint length of all strings in variadic arguments
- * @param buffer
- * @param argc
- * @param ...
- * @return
+ * @param argc number of strings
+ * @param ... the (null terminated) strings
+ * @return joint size of all strings
  */
 size_t joint_len(int argc, ...);
 

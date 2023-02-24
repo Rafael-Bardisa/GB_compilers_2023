@@ -10,6 +10,9 @@
 // default print to stdout for error checking
 #define TKPRINT(a) print_token(a, stdout)
 
+/**
+ * Enumeration of possible token types
+ */
 typedef enum category{
     CAT_NONRECOGNIZED = 0,
     CAT_NUMBER,
@@ -22,8 +25,8 @@ typedef enum category{
 } Category;
 
 typedef struct token {
-    char* lexeme;
-    Category category;
+    char* lexeme;   //the actual string value of the token
+    Category category;  //the category of the token
 } Token;
 
 /**
@@ -34,15 +37,12 @@ typedef struct token {
  */
 Token create_token(const char* lexeme, Category cat);
 
-
 /**
  * Returns the string representation of the given category
  * @param category
  * @return char* containing the string representation of the category
  */
 char* cat_to_str(const Category* category);
-
-
 
 /**
  * Returns the enum category value of str
