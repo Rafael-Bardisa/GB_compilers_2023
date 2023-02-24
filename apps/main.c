@@ -16,7 +16,6 @@ int main(int argc, char **argv){
 
     char* infile = argv[1];
 
-    join(outfile, infile, "scn");
 
     FMT(RED, BLUE, YELLOW_BG);
 
@@ -36,9 +35,14 @@ int main(int argc, char **argv){
     Lexer lexer = create_lexer(files, 7);
 
 
-    printf("\n%s", FMT(CLEAR));
-    scan_file(&lexer, infile, outfile);
-    printf("\n\nThe number of operations is: %i. \n", opcount(&lexer));
+    if(infile == NULL){
+        printf("\nError 0: No file present, check man page.\n");
+    }
+    else{
+        join(outfile, infile, "scn");
+        scan_file(&lexer, infile, outfile);
+        printf("\n\nThe number of operations is: %i. \n", opcount(&lexer));
+    }
 
     return 0;
 }
