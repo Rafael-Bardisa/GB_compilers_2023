@@ -1,8 +1,6 @@
 //
 // Created by Rafael Bardisa Rodes on 14/2/23.
 //
-#include "common.h"
-
 #ifndef COMPILERS_PROJECT_GB_OPTIONAL_H
 #define COMPILERS_PROJECT_GB_OPTIONAL_H
 
@@ -42,8 +40,8 @@
  * In the long run, they can be used to keep track of the growing number of functions of the project.<br>
  * It is best practice to use mostly for return types, not parameters (I think)
  */
-#define optional(type) struct Option_##type{bool ok; type value;}
-
-typedef optional(int) Option_int;
+#define optional(type) struct Option_##type{char ok; type value;}
+//same but also works with references
+#define optional_ref(type) struct Option_##type{char ok; type* value;}
 
 #endif //COMPILERS_PROJECT_GB_OPTIONAL_H
