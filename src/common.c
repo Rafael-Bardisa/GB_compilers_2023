@@ -4,6 +4,7 @@
 
 #include "common.h"
 
+
 size_t file_size(FILE* infile){
 
     fseek(infile, 0L, SEEK_END);

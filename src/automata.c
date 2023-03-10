@@ -4,7 +4,7 @@
 
 #include "automata.h"
 
-Automata create_automata(int num_states, char* accepted_chars, Category token_type){
+Automata create_automata(int num_states, char* accepted_chars, int num_accepted_states, const int* accepted_states, Category token_type){
     //know length of automata accepted characters for malloc
     int num_chars = strlen(accepted_chars) + 1;
 
@@ -19,6 +19,13 @@ Automata create_automata(int num_states, char* accepted_chars, Category token_ty
     //local alphabet for automata allows it to reference cells independently of outside alphabet
     char* alphabet = calloc(num_chars, sizeof(char));
     strcpy(alphabet, accepted_chars);
+
+    //allocate heap memory and copy accepted states there
+    int* accepted_states_heap = calloc(num_accepted_states, sizeof(int));
+
+    for (int i = 0; i < num_accepted_states; i++){
+        accepted_states_heap[i] = accepted_states[i];
+    }
 
     //create and return an automata
     Automata automata = {
@@ -38,6 +45,9 @@ Automata create_automata(int num_states, char* accepted_chars, Category token_ty
 
             .current_state = 0,
             .countop = 0,
+
+            .num_accepting_states = num_accepted_states,
+            .accepting_states = accepted_states_heap,
     };
 
     return automata;
@@ -51,6 +61,7 @@ void free_automata(Automata* automata){
     }
     free(automata->state_matrix);
     free(automata->scanned);
+    free(automata->accepting_states);
 }
 
 int save_automata(Automata* automata, char* file_path){
@@ -67,10 +78,19 @@ int save_automata(Automata* automata, char* file_path){
     FILE* save_file = open_file.value;
 
     // information header for later correct retrieval of the automata
-    fprintf(save_file, "%i %s %s\n", automata->num_states, automata->alphabet, cat_to_str(&automata->token_type));
+    fprintf(save_file, "%i %s %s %i\n", automata->num_states, automata->alphabet, cat_to_str(&automata->token_type), automata->num_accepting_states);
+
+    int first_char = TRUE;
+
+    for(int i = 0; i < automata->num_accepting_states; i++){
+        if (!first_char) fprintf(save_file, " ");
+        fprintf(save_file, "%i", automata->accepting_states[i]);
+        first_char = FALSE;
+    }
+    fprintf(save_file, "\n");
 
     for(int i = 0; i < automata->num_states; i++){
-        int first_char = TRUE;
+        first_char = TRUE;
         for(int j = 0; j < automata->num_chars; j++){
             if (!first_char) fprintf(save_file, " ");
             fprintf(save_file, "%i", automata->state_matrix[i][j]);
@@ -95,13 +115,20 @@ Automata load_automata(char* file_path){
     FILE *save_file = open_file.value;
 
     int num_states;
+    int num_accepting_states;
     //preemptively allocate enough space for reading the buffer
     // assumes neither alphabet or category are larger than specified. If working with ascii, they should suffice
     char alphabet[512];
     char category[128];
-    fscanf(save_file, "%i %s %s", &num_states, alphabet, category);
 
-    Automata automata = create_automata(num_states, alphabet, str_to_cat(category));
+    fscanf(save_file, "%i %s %s %i", &num_states, alphabet, category, &num_accepting_states);
+
+    int accepting_states[num_accepting_states];
+    for (int i = 0; i < num_accepting_states; i++){
+        fscanf(save_file, "%i", &accepting_states[i]);
+    }
+
+    Automata automata = create_automata(num_states, alphabet,  num_accepting_states, accepting_states, str_to_cat(category));
 
     for (int i = 0; i < automata.num_states; i++){
         for (int j = 0; j < automata.num_chars; j++){
@@ -187,7 +214,17 @@ void print_automata(Automata* automata, char* automata_name){
     printf("%sNumber of states:%s\t%i\n", FMT(CLEAR), FMT(BLUE_B), automata->num_states);
     printf("%sAllowed characters:%s\t%s%s + %swildcard\n",FMT(CLEAR), FMT(BLUE_B), alphabet, FMT(CLEAR), FMT(MAGENTA));
     printf("%sLexeme reserved space (bytes):%s\t%i%s\n",FMT(CLEAR), FMT(BLUE_B), automata->lexeme_capacity, FMT(CLEAR));
-    printf("%sToken type:%s\t%s\n\n",FMT(CLEAR), FMT(BLUE_B), cat_to_str(&automata->token_type));
+    printf("%sToken type:%s\t%s\n",FMT(CLEAR), FMT(BLUE_B), cat_to_str(&automata->token_type));
+
+    printf("%sAccepting states:\t[",FMT(CLEAR));
+
+    bool first = TRUE;
+    for(int i = 0; i < automata->num_accepting_states; i++){
+        if(!first) printf("%s, ",FMT(CLEAR));
+        printf("%sq%i", FMT(YELLOW_B), automata->accepting_states[i]);
+        first = FALSE;
+    }
+    printf("%s]\n\n", FMT(CLEAR));
 
     printf("%sDFA matrix representation:\n\n\t", FMT(BLUE_B));
 
@@ -203,7 +240,7 @@ void print_automata(Automata* automata, char* automata_name){
         for(int j = 0; j < automata->num_chars; j++){
             //pretty printing info
             int next_state = automata->state_matrix[i][j];
-            char* fmt = next_state ? next_state == automata->num_states - 1 ? FMT(YELLOW_B) : j == automata->num_chars - 1 ? FMT(MAGENTA) : FMT(BLUE_B) : FMT(GRAY);
+            char* fmt = next_state ? isin_int(automata->accepting_states, automata->num_accepting_states, automata->current_state) ? FMT(YELLOW_B) : j == automata->num_chars - 1 ? FMT(MAGENTA) : FMT(BLUE_B) : FMT(GRAY);
 
             printf("%s%i\t", fmt, next_state);
         }
@@ -258,6 +295,17 @@ Token get_token(char* lexeme, Automata automatas[]){
     }
 
 }
+
+#define USE_ISIN(type) bool isin_##type(type *container, size_t container_size, type element) {\
+for (int i = 0; i < container_size; i++) {\
+if (container[i] == element) { return 1; }\
+}\
+return 0;\
+}
+
+
+USE_ISIN(char)
+
 */
 
 bool stuck(Automata* automata){
@@ -265,5 +313,5 @@ bool stuck(Automata* automata){
 }
 
 bool accept(Automata* automata){
-    return (automata->current_state == automata->num_states - 1);
+    return isin_int(automata->accepting_states, automata->num_accepting_states, automata->current_state);
 }

@@ -17,11 +17,6 @@ int main(int argc, char **argv){
     char* infile = argv[1];
 
 
-    FMT(RED, BLUE, YELLOW_BG);
-
-    Automata keywords = load_automata("resources/keywords.txt");
-    automata_info(keywords);
-
     //must initialize as list of char*
     char* files[7] = {
             "resources/literals.txt",
@@ -32,6 +27,12 @@ int main(int argc, char **argv){
             "resources/operators.txt",
             "resources/keywords.txt",
     };
+
+
+    Automata test = load_automata(files[0]);
+    print_automata(&test, "nombre");
+
+
     Lexer lexer = create_lexer(files, 7);
 
 

@@ -35,6 +35,16 @@ typedef enum bool_{
     true = TRUE,
 } bool;
 
+#define USE_ISIN(type) static bool isin_##type(const type *container, size_t container_size, type element) {\
+for (int i = 0; i < container_size; i++) {\
+if (container[i] == element) { return 1; }\
+}\
+return 0;\
+}
+
+// defines isin_int
+USE_ISIN(int)
+
 /**
  * Given a file, return the length of the file in bytes (equivalent to characters if file is encoded in ASCII)<br>
  * Resets the file position indicator back to the start of the file!

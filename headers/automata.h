@@ -42,15 +42,20 @@ typedef struct automata{
     int num_states; // number of states in the DFA
 
     int countop;    // number of comparison operations, should be equal to sum of all indexof
+
+    int num_accepting_states;
+    int* accepting_states;
 } Automata;
 
 /**
  * Creates an automata with a given number of states and a list of all possible accepting characters. Automata is not started on creation
  * @param num_states how many states does the automata have
  * @param accepted_chars the complete list of characters for which there exists at least one valid state change (not to state 0)
+ * @param num_accepted_states the length of the array of accepted states
+ * @param accepted_states array of accepted states (ints)
  * @return
  */
-Automata create_automata(int num_states, char* accepted_chars, Category token_type);
+Automata create_automata(int num_states, char* accepted_chars, int num_accepted_states, const int* accepted_states, Category token_type);
 
 /**
  * Frees all calloced memory from the automata parameter
