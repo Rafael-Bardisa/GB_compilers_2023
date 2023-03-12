@@ -240,7 +240,7 @@ void print_automata(Automata* automata, char* automata_name){
         for(int j = 0; j < automata->num_chars; j++){
             //pretty printing info
             int next_state = automata->state_matrix[i][j];
-            char* fmt = next_state ? isin_int(automata->accepting_states, automata->num_accepting_states, automata->current_state) ? FMT(YELLOW_B) : j == automata->num_chars - 1 ? FMT(MAGENTA) : FMT(BLUE_B) : FMT(GRAY);
+            char* fmt = next_state ? isin_int(automata->accepting_states, automata->num_accepting_states, next_state) ? FMT(YELLOW_B) : j == automata->num_chars - 1 ? FMT(MAGENTA) : FMT(BLUE_B) : FMT(GRAY);
 
             printf("%s%i\t", fmt, next_state);
         }
