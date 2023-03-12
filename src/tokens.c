@@ -79,3 +79,44 @@ Category str_to_cat(const char* str) {
 
     return category;
 }
+
+Stack_Token Stack_Token_create(size_t capacity){
+    Stack stack = {
+            .capacity = capacity,
+            .size = 0,
+            .element_size = sizeof (Token),
+            .contents = calloc(capacity, sizeof (Token)),
+    };
+    Stack_Token result = {
+            .stack = stack,
+    };
+
+    return result;
+}
+
+void Stack_Token_delete(Stack_Token* stack, bool owned){
+    //TODO cast internal data pointer as pointer to tokens and free all of them, memory management
+    if (owned){
+        //Token* data = (Token*) stack.stack.contents;
+        //for (int i = 0; i < stack.stack.size; i++){
+        //}
+    }
+    free(stack->stack.contents);
+}
+
+//TODO memory management
+Option_Token Stack_Token_pop(Stack_Token* stack){
+    Option_Token result = {0};
+    Option_void inner_result = pop(&stack->stack);
+    if (!inner_result.ok) return result;
+
+    //dereference inner pointer and get the token at the top position of the stack
+    result.ok = TRUE;
+    result.value = *(Token*)inner_result.value;
+
+    return result;
+}
+
+int Stack_Token_push(Stack_Token* stack, Token token){
+    return push(&stack->stack, (void*) &token);
+}
