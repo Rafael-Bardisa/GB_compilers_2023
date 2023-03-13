@@ -85,12 +85,12 @@ void print_token(Token* token, FILE *fd);
 
 //TODO
 /**
- * reads a token from a string
+ * reads a token from a string "<..., ...>"
  * @param token_string a string supposed to hold a token
  * @param string_size the size of the passed string
  * @return an optional token
  */
-Option_Token read_token(char* token_string, size_t string_size);
+Token read_token(char* token_string, size_t string_size);
 
 /**
  * stack restricted to only contain owned tokens. Special functions are used for correct data storage and retrieval
