@@ -34,8 +34,8 @@ typedef struct automata_sr{
 
     int* at;    //unused
 
-    Token* alphabet;//list of tokens that define transitions in the automata. Internally, there is an extra "wildcard" character for tokens not in the list.
-
+    Token* accepted_tokens;//list of tokens that define transitions in the automata. Internally, there is an extra "wildcard" character for tokens not in the list.
+    size_t num_accepted_tokens;
 
     int num_chars;  // number of columns in automata
 

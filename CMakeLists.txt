@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.22)
 project(COMPILERS_PROJECT_GB
         VERSION 0.1
         DESCRIPTION "Lexer program for a subset of C"
