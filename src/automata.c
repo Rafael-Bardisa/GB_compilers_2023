@@ -234,7 +234,7 @@ void print_automata(Automata* automata, char* automata_name){
     printf("%s%s\n", FMT(MAGENTA), SIGMA);
 
     for(int i = 0; i < automata->num_states; i++){
-        char* q_fmt = i == automata->num_states - 1 ? FMT(YELLOW_B) : FMT(BLUE_B);
+        char* q_fmt = isin_int(automata->accepting_states, automata->num_accepting_states, i) ? FMT(YELLOW_B) : FMT(BLUE_B);
 
         printf("%sq%i\t", q_fmt, i);
         for(int j = 0; j < automata->num_chars; j++){

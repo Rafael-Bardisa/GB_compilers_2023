@@ -13,4 +13,11 @@ typedef struct parser{
     Automata_SR automata; //it makes sense to only have an automata for a grammar
 }Parser;
 
+/**
+ * parse a cscn file to see if the contents are accepted by the parser grammar
+ * @param parser
+ * @param filename
+ */
+void parse(Parser* parser, const char* filename);
+
 #endif //COMPILERS_PROJECT_GB_PARSER_H

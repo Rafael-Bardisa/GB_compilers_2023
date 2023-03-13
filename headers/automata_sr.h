@@ -11,6 +11,12 @@
 #include "result.h"
 #include "tokens.h"
 
+/*
+typedef struct cell{
+    int next_state;
+    Action action;
+} Cell;
+*/
 
 /**
  * struct to store a shift-reduce automata
@@ -22,6 +28,8 @@ typedef struct automata_sr{
     int lexeme_capacity;    //capacity of scanned buffer. Dynamic change is not implemented, all tokens should be at most this length
 
     int** state_matrix; //matrix representation of the automata's associated DFA. Current implementation allows for only ONE accepting state.
+    int** goto_matrix;
+
     int current_state;  //which state the automata is currently at.
 
     int* at;    //unused

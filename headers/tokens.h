@@ -31,6 +31,11 @@ typedef struct token {
 } Token;
 
 /**
+ * optional type for tokens
+ */
+typedef optional(Token) Option_Token;
+
+/**
  * Creates a token from a lexeme string and a cat Category
  * @param lexeme a heap allocated pointer to a character array
  * @param cat
@@ -42,7 +47,7 @@ Token create_token(char* lexeme, Category cat);
  * Creates a token from a lexeme string and a cat Category. Stores the contents of the lexeme pointer in the heap (therefore must be freed at some point to avoid memory leaks)
  * @param lexeme the lexeme to copy. Pretty much only makes sense when this is in the stack, otherwise create_token should be okay to use (depends on lifetime of pointer)
  * @param lexeme_len how long is the lexeme to store. does not include trailing '\0'
- * @param cat
+ * @param cat the category
  * @return the corresponding token
  */
 Token allocate_token(const char* lexeme, size_t lexeme_len, Category cat);
@@ -78,16 +83,21 @@ Category str_to_cat(const char* str);
  */
 void print_token(Token* token, FILE *fd);
 
+//TODO
 /**
- * optional type for tokens
+ * reads a token from a string
+ * @param token_string a string supposed to hold a token
+ * @param string_size the size of the passed string
+ * @return an optional token
  */
-typedef optional(Token) Option_Token;
+Option_Token read_token(char* token_string, size_t string_size);
 
 /**
- * stack restricted to only contain tokens. Special functions are used for correct data storage and retrieval
+ * stack restricted to only contain owned tokens. Special functions are used for correct data storage and retrieval
  */
 typedef struct stack_token {
     Stack stack;
+    size_t maximum_size_reached;
 } Stack_Token;
 
 /**
@@ -101,7 +111,7 @@ Stack_Token Stack_Token_create(size_t capacity);
  * free memory associated with the token stack
  * @param owned whether the stack holds the only references to the tokens in the stack or not. If true, the function must free each individual token
  */
-void Stack_Token_delete(Stack_Token* stack, bool owned);
+void Stack_Token_delete(Stack_Token* stack);
 
 /**
  * pop operation for stack of tokens

@@ -18,6 +18,15 @@ int main(int argc, char **argv){
 
     Stack_Token token_test = Stack_Token_create(5);
 
+    char* test_s = "<\"hello, world!\", CAT_LITERAL>";
+
+    char test_s1[64] = {0};
+    char test_s2[64] = {0};
+
+    int read = sscanf(test_s, "<%s, %s>", test_s1, test_s2);
+
+    printf("|%s|%s|", test_s1, test_s2);
+
     Token test1 = {
             .lexeme = "world!",
             .category = CAT_IDENTIFIER,
@@ -38,6 +47,7 @@ int main(int argc, char **argv){
         Token to_print = Stack_Token_pop(&token_test).value;
         TKPRINT(&to_print);
     }
+
 
     //must initialize as list of char*
     char* files[7] = {
@@ -69,3 +79,48 @@ int main(int argc, char **argv){
 
     return 0;
 }
+
+/**
+* 3 + 45 + (64)
+ * 3 !0
+ * E !0
+ * E + !0
+ * E + 45 !0
+ * E + E !0
+ * NOT ACCEPTED
+*/
+
+/**
+* 3 + (45 + (64)
+ * 3 !0
+ * E !0
+ * E + !0
+ * E + ( !0
+ * E + (45 !0
+ * E + (E !0
+ * E + (E + !0
+ * E + (E + ( !0
+ * E + (E + (64 !0
+ * E + (E + (E !0
+ * E + (E + (E)
+ * E + (E
+ * E + (E$
+ * NOT ACCEPTED
+*/
+
+/**
+* 3 + (45 + (64)
+ * 0
+ * 1 E > int
+ * 2
+ * 3
+ * 4
+ * 5 E > int
+ * 6
+ * 8
+ * 9
+ * 5 E > int
+ * 10?  |6
+ * 11? E > E + (E)|7
+ * 6 > not accept state
+*/

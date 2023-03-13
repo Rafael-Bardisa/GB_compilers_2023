@@ -102,17 +102,15 @@ Stack_Token Stack_Token_create(size_t capacity){
     };
     Stack_Token result = {
             .stack = stack,
+            .maximum_size_reached = 0,
     };
 
     return result;
 }
 
-void Stack_Token_delete(Stack_Token* stack, bool owned){
-    //TODO cast internal data pointer as pointer to tokens and free all of them, memory management
-    if (owned){
-        //Token* data = (Token*) stack.stack.contents;
-        //for (int i = 0; i < stack.stack.size; i++){
-        //}
+void Stack_Token_delete(Stack_Token* stack){
+    for(int i = 0; i < stack->stack.size; i++){
+        Token_free(&stack->stack.contents[i]);
     }
     free(stack->stack.contents);
 }
@@ -131,5 +129,14 @@ Option_Token Stack_Token_pop(Stack_Token* stack){
 }
 
 int Stack_Token_push(Stack_Token* stack, Token token){
+    //TODO error handling
+    //need to check for dangling tokens and free them if found
+    //if we are writing data where a token was previously stored
+    stack->maximum_size_reached = stack->maximum_size_reached > stack->stack.size ? stack->maximum_size_reached : stack->stack.size;
+
+    if(stack->stack.size < stack->maximum_size_reached){
+        Token_free(&stack->stack.contents[stack->stack.size]);
+    }
+
     return push(&stack->stack, (void*) &token);
 }
