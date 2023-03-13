@@ -32,11 +32,26 @@ typedef struct token {
 
 /**
  * Creates a token from a lexeme string and a cat Category
- * @param lexeme
+ * @param lexeme a heap allocated pointer to a character array
  * @param cat
  * @return the corresponding Token
  */
-Token create_token(const char* lexeme, Category cat);
+Token create_token(char* lexeme, Category cat);
+
+/**
+ * Creates a token from a lexeme string and a cat Category. Stores the contents of the lexeme pointer in the heap (therefore must be freed at some point to avoid memory leaks)
+ * @param lexeme the lexeme to copy. Pretty much only makes sense when this is in the stack, otherwise create_token should be okay to use (depends on lifetime of pointer)
+ * @param lexeme_len how long is the lexeme to store. does not include trailing '\0'
+ * @param cat
+ * @return the corresponding token
+ */
+Token allocate_token(const char* lexeme, size_t lexeme_len, Category cat);
+
+/**
+ * frees the allocated memory of a token
+ * @param token
+ */
+void Token_free(Token* token);
 
 /**
  * Returns the string representation of the given category

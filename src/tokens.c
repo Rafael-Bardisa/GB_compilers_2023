@@ -3,9 +3,22 @@
 //
 #include "tokens.h"
 
-Token create_token(const char* lexeme, Category cat){
+Token create_token(char* lexeme, Category cat){
     Token token = {.lexeme = lexeme, .category = cat};
     return token;
+}
+
+Token allocate_token(const char* lexeme, size_t lexeme_len, Category cat){
+    //allocate and copy into heap memory the contents of the lexeme string
+    char* heap_allocated = calloc(lexeme_len+1, sizeof(char));
+    memcpy(heap_allocated, lexeme, lexeme_len * sizeof (char));
+
+    //create and return a token
+    return create_token(heap_allocated, cat);
+}
+
+void Token_free(Token* token){
+    free(token->lexeme);
 }
 
 void print_token(Token* token, FILE *fd){
