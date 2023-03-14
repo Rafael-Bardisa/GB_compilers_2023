@@ -19,6 +19,12 @@ typedef struct cell{
 } Cell;
 */
 
+/*
+typedef struct rule {
+    Token original;
+    Token* substitution;
+} Rule;
+*/
 /**
  * struct to store a shift-reduce automata
  */
