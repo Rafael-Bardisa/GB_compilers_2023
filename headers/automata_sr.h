@@ -23,11 +23,6 @@ typedef struct cell{
  * struct to store a shift-reduce automata
  */
 typedef struct automata_sr{
-    //if grammar is unambiguous we can use this
-    Token* scanned;  //char buffer to store read characters from a string. Not realloced because it's been given reasonable capacity
-
-    int lexeme_capacity;    //capacity of scanned buffer. Dynamic change is not implemented, all tokens should be at most this length
-
     int** state_matrix; //matrix representation of the automata's associated DFA. Current implementation allows for only ONE accepting state.
     int** goto_matrix;
 
@@ -35,14 +30,10 @@ typedef struct automata_sr{
 
     int* at;    //unused
 
-    Token* accepted_tokens;//list of tokens that define transitions in the automata. Internally, there is an extra "wildcard" character for tokens not in the list.
-    size_t num_accepted_tokens;
-
-    int num_chars;  // number of columns in automata
+    Token* accepted_tokens; //list of tokens that define transitions in the automata. Internally, there is an extra "wildcard" character for tokens not in the list.
+    size_t num_accepted_tokens; // number of columns in automata
 
     int num_states; // number of states in the DFA
-
-    int countop;    // number of comparison operations, should be equal to sum of all indexof
 
     int num_accepting_states;
     int* accepting_states;

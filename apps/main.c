@@ -19,14 +19,11 @@ int main(int argc, char **argv){
     Stack_Token token_test = Stack_Token_create(5);
 
     char* test_s = "<\"hello, world!\", CAT_LITERAL>";
+    printf("%i", ' ' == ' ');
+    /*
+    Token test3 = read_token(test_s, strlen(test_s));
 
-    char test_s1[64] = {0};
-    char test_s2[64] = {0};
-
-    int read = sscanf(test_s, "<%s, %s>", test_s1, test_s2);
-
-    printf("|%s|%s|", test_s1, test_s2);
-
+    TKPRINT(&test3);
     Token test1 = {
             .lexeme = "world!",
             .category = CAT_IDENTIFIER,
@@ -46,7 +43,7 @@ int main(int argc, char **argv){
     for (int i = 0; i < 5; i++){
         Token to_print = Stack_Token_pop(&token_test).value;
         TKPRINT(&to_print);
-    }
+    }*/
 
 
     //must initialize as list of char*

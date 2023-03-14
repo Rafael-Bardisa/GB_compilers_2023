@@ -20,4 +20,18 @@ typedef struct parser{
  */
 void parse(Parser* parser, const char* filename);
 
+/**
+ * how many tokens are in the given string
+ * @param string
+ * @return
+ */
+size_t num_tokens_in_string(const char* string);
+
+/**
+ * parse a string into its valid  allocated tokens
+ * @param string a string with some tokens
+ * @return
+ */
+Token* str_to_tokens(const char* string);
+
 #endif //COMPILERS_PROJECT_GB_PARSER_H
