@@ -93,26 +93,6 @@ Category str_to_cat(const char* str) {
     return category;
 }
 
-Token read_token(char* string, size_t string_size){
-    //< is [0], > is [string_size-1]
-
-    int i = 0;
-
-    for(i = string_size - 1; string[i] != ' '; i--);
-
-    size_t lexeme_len = i - 2;
-    size_t category_len = string_size - i - 2;
-
-    char* category = calloc(category_len + 1, sizeof(char));
-    memcpy(category, &string[i+1], category_len);
-
-
-    Token result = allocate_token(&string[1], lexeme_len, str_to_cat(category));
-
-    free(category);
-    return result;
-}
-
 Stack_Token Stack_Token_create(size_t capacity){
     Stack stack = {
             .capacity = capacity,
