@@ -11,6 +11,7 @@
 #include "result.h"
 #include "tokens.h"
 
+
 /*
 typedef struct cell{
     int next_state;

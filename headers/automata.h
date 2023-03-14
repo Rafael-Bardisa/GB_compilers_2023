@@ -11,8 +11,6 @@
 #include "result.h"
 #include "tokens.h"
 
-#define ALPHABET "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ{}()[]+<>*=;,\"0123456789"
-#define DEFAULT_LEXEME_LENGTH 128
 
 /**
  * shorthand for print_automata

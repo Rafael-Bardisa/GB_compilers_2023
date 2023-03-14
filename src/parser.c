@@ -3,3 +3,6 @@
 //
 
 #include "parser.h"
+void parse(Parser* parser, const char* filename){
+
+}
