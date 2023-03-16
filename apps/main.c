@@ -58,7 +58,7 @@ int main(int argc, char **argv){
     };
 
 
-    Automata test = load_automata(files[6]);
+    Automata test = load_automata(files[0]);
     print_automata(&test, "nombre");
 
 

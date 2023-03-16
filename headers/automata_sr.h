@@ -36,10 +36,13 @@ typedef struct automata_sr{
 
     int* at;    //unused
 
-    Token* accepted_tokens; //list of tokens that define transitions in the automata. Internally, there is an extra "wildcard" character for tokens not in the list.
+    Token* accepted_states; //list of tokens that define transitions in the automata. Internally, there is an extra "wildcard" character for tokens not in the list.
+    Token* accepted_goto; //list of tokens that define transitions in the automata. Internally, there is an extra "wildcard" character for tokens not in the list.
+
     size_t num_accepted_tokens; // number of columns in automata
 
     int num_states; // number of states in the DFA
+    int num_goto; // number of states in the DFA
 
     int num_accepting_states;
     int* accepting_states;
@@ -53,7 +56,7 @@ typedef struct automata_sr{
  * @param accepted_states array of accepted states (ints)
  * @return
  */
-Automata_SR create_automata(int num_states, Token* accepted_tokens, int num_accepted_states, const int* accepted_states, Category token_type);
+Automata_SR create_automata(int num_states, Token* accepted_tokens, int num_accepted_states, const int* accepted_states, int num_goto, Token* accepted_goto, Category token_type);
 
 /**
  * Frees all calloced memory from the shift reduce automata parameter
