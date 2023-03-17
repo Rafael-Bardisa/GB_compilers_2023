@@ -39,15 +39,18 @@ typedef struct rule {
  * struct to store a shift-reduce automata
  */
 typedef struct automata_sr{
-    int** state_matrix; //matrix representation of the automata's associated DFA. Current implementation allows for only ONE accepting state.
+    int** state_matrix; //matrix representation of the automata's associated DFA.
     int** goto_matrix;
+    int** rules_matrix;
 
     int current_state;  //which state the automata is currently at.
 
     int* at;    //unused
 
-    Token* accepted_states; //list of tokens that define transitions in the automata. Internally, there is an extra "wildcard" character for tokens not in the list.
-    Token* accepted_goto; //list of tokens that define transitions in the automata. Internally, there is an extra "wildcard" character for tokens not in the list.
+    Token* accepted_states; //list of tokens that define transitions in the automata.
+                            // Internally, there is an extra "wildcard" character for tokens not in the list.
+    Token* accepted_goto; //list of tokens that define transitions in the automata.
+                         // Internally, there is an extra "wildcard" character for tokens not in the list.
 
     size_t num_accepted_tokens; // number of columns in automata
 

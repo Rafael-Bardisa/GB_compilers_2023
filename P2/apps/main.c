@@ -109,7 +109,6 @@ int main(int argc, char **argv){
 */
 
 
-
     if(infile == NULL){
         printf("\nError 0: No file present, check man page.\n");
     }

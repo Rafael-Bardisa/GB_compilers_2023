@@ -15,6 +15,7 @@ Automata_SR create_automata_sr(int num_states, Token* accepted_tokens, int num_a
     //initialize state matrix to 0 (i.e, all states point to not accepting state)
     int** states = calloc(num_states, sizeof (int*));
     int** goto_matrix = calloc(num_goto, sizeof (int*));
+    int** rules_matrix = calloc(num_states, sizeof(int*));
     for (int i = 0; i < num_states; i++){
         states[i] = calloc(num_tokens, sizeof(int));
     }
