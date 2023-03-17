@@ -11,6 +11,16 @@
 #include "result.h"
 #include "tokens.h"
 
+/*
+typedef struct rule{
+    1: S->E;
+    2: E->T;
+    3: E->E+T;
+    4: T->T*F;
+    5: T->F;
+    6: F->NUM;
+    7: F->(E);
+}; */
 
 /*
 typedef struct cell{
@@ -141,4 +151,18 @@ bool _stuck_SR(Automata_SR* automata);
  */
 bool _accept_SR(Automata_SR* automata);
 
+/**
+ *  performs the reduction A -> β
+ * @param beta sybmols on stack match β for some A -> β
+ * @param A non-terminal variable
+ * @param stack
+ */
+void reduce(char* beta, Token* A, Stack_Token* stack);
+
+/**
+ *
+ * @param token
+ * @param stack
+ */
+void shift(Token* token, Stack_Token* stack);
 #endif //COMPILERS_PROJECT_GB_AUTOMATA_SR_H

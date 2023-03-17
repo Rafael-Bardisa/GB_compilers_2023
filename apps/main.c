@@ -3,6 +3,7 @@
 //
 
 #include "main.h"
+#include "automata_sr.h"
 
 Option_int test(){
     Option_int result = {
@@ -63,6 +64,23 @@ int main(int argc, char **argv){
 
 
     Lexer lexer = create_lexer(files, 7);
+
+    //TODO: Implementation of the idea below
+/*
+    size_t stack_size = 50;
+    Stack_Token test_stack = Stack_Token_create(stack_size);
+    do {
+        if(current_rule != 0){
+            beta = current_token;
+            A = current_rule; //get non-terminal variable from current_rule 1 -> E, 2 -> E+T,etc.
+            reduce(beta, A, test_stack);
+        }
+        else{
+            //get next token
+            shift(token, test_stack);
+        }
+*/
+
 
 
     if(infile == NULL){

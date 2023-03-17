@@ -44,6 +44,5 @@ void into_tokens(char* file_contents, Token* token_list){
         token_list[num_token] = read_token(current_token, strlen(current_token));
         num_token++;
     }
-
     free(current_token);
 }
