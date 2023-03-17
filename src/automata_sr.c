@@ -4,7 +4,7 @@
 
 #include "automata_sr.h"
 #include "tokens.h"
-Automata_SR create_automata(int num_states, Token* accepted_tokens, int num_accepted_states, const int* accepted_states, int num_goto, Token* accepted_goto, Category token_type){
+Automata_SR create_automata_sr(int num_states, Token* accepted_tokens, int num_accepted_states, const int* accepted_states, int num_goto, Token* accepted_goto){
     //know length of automata accepted characters for malloc
     int sizeof_acc = sizeof(*accepted_tokens);
     int sizeof_non = sizeof(*accepted_goto);
@@ -81,9 +81,8 @@ void Automata_SR_start(Automata_SR *automata) {
 
 void reduce(char* beta, Token* A, Stack_Token* stack){
     size_t len_beta = strlen(beta);
-    size_t len_A = strlen(A);
     for(int i = 0; i < len_beta; ++i){
-        pop(stack);
+        Stack_Token_pop(stack);
     }
     Stack_Token_push(stack, *A);
 }

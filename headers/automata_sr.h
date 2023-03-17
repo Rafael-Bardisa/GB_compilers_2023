@@ -66,7 +66,7 @@ typedef struct automata_sr{
  * @param accepted_states array of accepted states (ints)
  * @return
  */
-Automata_SR create_automata(int num_states, Token* accepted_tokens, int num_accepted_states, const int* accepted_states, int num_goto, Token* accepted_goto, Category token_type);
+Automata_SR create_automata_sr(int num_states, Token* accepted_tokens, int num_accepted_states, const int* accepted_states, int num_goto, Token* accepted_goto);
 
 /**
  * Frees all calloced memory from the shift reduce automata parameter

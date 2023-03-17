@@ -34,4 +34,6 @@ size_t num_tokens_in_string(const char* string);
  */
 Token* str_to_tokens(const char* string);
 
+void parse_str_to_tokens(char* file_contents, size_t file_contents_len, Token* token_list);
+
 #endif //COMPILERS_PROJECT_GB_PARSER_H

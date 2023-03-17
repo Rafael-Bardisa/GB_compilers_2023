@@ -3,7 +3,7 @@
 //
 
 #include "main.h"
-#include "automata_sr.h"
+#include "parser.h"
 
 Option_int test(){
     Option_int result = {
@@ -21,10 +21,9 @@ int main(int argc, char **argv){
 
     char* test_s = "<\"hello, world!\", CAT_LITERAL>";
     printf("%i", ' ' == ' ');
-    /*
+
     Token test3 = read_token(test_s, strlen(test_s));
 
-    TKPRINT(&test3);
     Token test1 = {
             .lexeme = "world!",
             .category = CAT_IDENTIFIER,
@@ -34,17 +33,45 @@ int main(int argc, char **argv){
             .category = CAT_NUMBER,
     };
 
+    Stack_Token_push(&token_test, test1);
+    Stack_Token_push(&token_test, test2);
+    Stack_Token_push(&token_test, test2);
+    Stack_Token_push(&token_test, test1);
+    Stack_Token_push(&token_test, test2);
 
-    Stack_Token_push(&token_test, test1);
-    Stack_Token_push(&token_test, test2);
-    Stack_Token_push(&token_test, test2);
-    Stack_Token_push(&token_test, test1);
-    Stack_Token_push(&token_test, test2);
+    Token cscn_file[22] = {0};
+
+    Result_file open_file = file_open("resources/my_test.cscn", "r");
+
+    if (open_file.status != OK){
+        explain_error(open_file);
+    }
+
+    size_t file_size_num = file_size(open_file.value);
+
+    char contents[file_size_num];
+
+    fread(contents, sizeof (char),file_size_num, open_file.value);
+
+    parse_str_to_tokens(contents, file_size_num, cscn_file);
+
+    for(int i = 0; i < token_test.stack.size; i++){
+        int offset = i * sizeof(Token);
+        Token* token_reference = (Token*) &token_test.stack.contents[offset];
+        TKPRINT(token_reference);
+    }
+    printf("%s\n", FMT(BLUE_B));
+
+    printf("%s", FMT(BLUE_BG));
+    for (int i = 0; i < 22; i++){
+        TKPRINT(&cscn_file[i]);
+    }
+    printf("%s\n", FMT(CLEAR));
 
     for (int i = 0; i < 5; i++){
         Token to_print = Stack_Token_pop(&token_test).value;
         TKPRINT(&to_print);
-    }*/
+    }
 
 
     //must initialize as list of char*

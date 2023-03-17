@@ -46,3 +46,21 @@ void into_tokens(char* file_contents, Token* token_list){
     }
     free(current_token);
 }
+
+void parse_str_to_tokens(char* file_contents, size_t file_contents_len, Token* token_list){
+    int i, j, current_offset = 0, token_index = 0;
+
+    while(TRUE) {
+
+        for (i = current_offset; file_contents[i] != '<' && i < file_contents_len; i++);
+        for (j = i; file_contents[j] != '>' && j < file_contents_len; j++);
+        //j = i implies if i = file_contents_len then j = file_contents_len
+        if (j == file_contents_len) return;
+
+        token_list[token_index] = read_token(&file_contents[i], j - i + 1);
+        token_index++;
+        current_offset = j;
+    }
+
+    //aaaaa
+}

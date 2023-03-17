@@ -95,7 +95,6 @@ Category str_to_cat(const char* str) {
 
 Token read_token(char* string, size_t string_size){
     //< is [0], > is [string_size-1]
-
     int i = 0;
 
     for(i = string_size - 1; string[i] != ' '; i--);
@@ -114,14 +113,8 @@ Token read_token(char* string, size_t string_size){
 }
 
 Stack_Token Stack_Token_create(size_t capacity){
-    Stack stack = {
-            .capacity = capacity,
-            .size = 0,
-            .element_size = sizeof (Token),
-            .contents = calloc(capacity, sizeof (Token)),
-    };
     Stack_Token result = {
-            .stack = stack,
+            .stack = Stack_create(capacity, sizeof (Token)),
             .maximum_size_reached = 0,
     };
 
