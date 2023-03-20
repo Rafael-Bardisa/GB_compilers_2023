@@ -98,7 +98,7 @@ int main(int argc, char **argv){
     6: F->NUM;
     7: F->(E);
     */
-
+    /*
     size_t stack_size = 50;
     Stack_Token test_stack = Stack_Token_create(stack_size);
     Token A = create_token((char *) 'S', CAT_REDUCTION);
@@ -127,6 +127,7 @@ int main(int argc, char **argv){
             shift(current_token, &test_stack);
         }
     }
+     */
     return 0;
 }
 
