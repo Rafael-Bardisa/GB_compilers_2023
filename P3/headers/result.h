@@ -32,7 +32,7 @@ typedef struct result_file {
  * @param trigger_function function that triggered the error
  * @param recoverable whether to exit the program or not. For now, only true is implemented
  */
-void explain_error_(Status status, int line_number, char* trigger_function, bool recoverable);
+void explain_error_(Status status, int line_number, const char* trigger_function, bool recoverable);
 
 #define explain_error(result_like) explain_error_(result_like.status, __LINE__, __FUNCTION__, FALSE)
 

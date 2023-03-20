@@ -94,6 +94,15 @@ void print_token(Token* token, FILE *fd);
 Token read_token(char* token_string, size_t string_size);
 
 /**
+ * parse a string into a list of its tokens, if any. Allocates memory on the heap
+ * @param file_contents
+ * @param file_contents_len
+ * @param token_list
+ * @return
+ */
+int parse_str_to_tokens(char* file_contents, size_t file_contents_len, Token* token_list);
+
+/**
  * stack restricted to only contain owned tokens. Special functions are used for correct data storage and retrieval
  */
 typedef struct stack_token {

@@ -7,11 +7,19 @@
 
 #include "automata_sr.h"
 
+#define PARSER_CAPACITY 64
+
 typedef struct parser{
+    Token* file_as_tokens;  //token representation of a file
     Stack_Token stack;  //stack to store read tokens
 
     Automata_SR automata; //it makes sense to only have an automata for a grammar
 }Parser;
+
+/**
+ * create a parser from file sources
+ */
+Parser Parser_new(char* token_file, char* goto_file, char* rules_file, char* states_file);
 
 /**
  * parse a cscn file to see if the contents are accepted by the parser grammar
@@ -34,6 +42,9 @@ size_t num_tokens_in_string(const char* string);
  */
 Token* str_to_tokens(const char* string);
 
-void parse_str_to_tokens(char* file_contents, size_t file_contents_len, Token* token_list);
+/**
+ * open and read from a token file into a valid token pointer
+ */
+int parse_file_to_tokens(char* filename, Token* token_list);
 
 #endif //COMPILERS_PROJECT_GB_PARSER_H

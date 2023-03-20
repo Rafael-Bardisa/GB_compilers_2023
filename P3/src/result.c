@@ -2,8 +2,8 @@
 // Created by Rafael Bardisa Rodes on 24/2/23.
 //
 
-#include "result.h"
 #include <stdlib.h>
+#include "result.h"
 
 char* status_to_str(Status status){
     switch (status){
@@ -14,7 +14,7 @@ char* status_to_str(Status status){
     }
 }
 
-void explain_error_(Status status, int line_number, char* trigger_function, bool recoverable){
+void explain_error_(Status status, int line_number, const char* trigger_function, bool recoverable){
     fprintf(stderr,
             "%s at line %i:\t%s%s%s",
             trigger_function,

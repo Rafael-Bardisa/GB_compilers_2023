@@ -11,6 +11,10 @@
 #include "result.h"
 #include "tokens.h"
 
+//up to 1 Mb files
+#define SR_MAX_FILE_SIZE (1024 * 1024)
+#define SR_MAX_TOKEN_LEN 64
+
 /*
 typedef struct rule{
     1: S->E;
@@ -47,7 +51,7 @@ typedef struct automata_sr{
 
     int* at;    //unused
 
-    Token* accepted_states; //list of tokens that define transitions in the automata.
+    Token* accepted_tokens; //list of tokens that define transitions in the automata.
                             // Internally, there is an extra "wildcard" character for tokens not in the list.
     Token* accepted_goto; //list of tokens that define transitions in the automata.
                          // Internally, there is an extra "wildcard" character for tokens not in the list.
@@ -55,14 +59,14 @@ typedef struct automata_sr{
     size_t num_accepted_tokens; // number of columns in automata
 
     int num_states; // number of states in the DFA
-    int num_goto; // number of states in the DFA
+    int num_goto; // number of states in the goto DFA
 
     int num_accepting_states;
     int* accepting_states;
 } Automata_SR;
 
 /**
- * Creates a shift reduce automata with a given number of states and a list of all possible accepting characters. Automata is not started on creation
+ * Creates a shift reduce automata with a given number of states and a list of all possible accepting tokens. Automata is not started on creation
  * @param num_states how many states does the automata have
  * @param accepted_chars the complete list of tokens for which there exists at least one valid state change (not to state 0)
  * @param num_accepted_states the length of the array of accepted states
@@ -90,7 +94,7 @@ int Automata_SR_save(Automata_SR* automata, const char* file_path);
  * @param file_path
  * @return
  */
-Automata_SR Automata_SR_load(const char* file_path);
+Automata_SR Automata_SR_load(char* goto_path, char* rules_path, char* states_path);
 
 /**
  * Sets the automata's current state to 1 (i.e, the initial state). 0 is reserved for not accepted
@@ -167,5 +171,8 @@ void reduce(char* beta, Token* A, Stack_Token* stack);
  * @param token
  * @param stack
  */
-void shift(Token* token, Stack_Token* stack);
+void shift(Token token, Stack_Token* stack);
+
+Automata_SR load_automata(char* file_path);
+
 #endif //COMPILERS_PROJECT_GB_AUTOMATA_SR_H

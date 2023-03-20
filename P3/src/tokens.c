@@ -112,6 +112,25 @@ Token read_token(char* string, size_t string_size){
     return result;
 }
 
+int parse_str_to_tokens(char* file_contents, size_t file_contents_len, Token* token_list){
+    int i, j, current_offset = 0, token_index = 0;
+    int valid_tokens = 0;
+    while(TRUE) {
+
+        for (i = current_offset; file_contents[i] != '<' && i < file_contents_len; i++);
+        for (j = i; file_contents[j] != '>' && j < file_contents_len; j++);
+        //j = i implies if i = file_contents_len then j = file_contents_len
+        if (j == file_contents_len) return valid_tokens;
+
+        token_list[token_index] = read_token(&file_contents[i], j - i + 1);
+        token_index++;
+        valid_tokens++;
+        current_offset = j;
+    }
+
+    //aaaaa
+}
+
 Stack_Token Stack_Token_create(size_t capacity){
     Stack_Token result = {
             .stack = Stack_create(capacity, sizeof (Token)),

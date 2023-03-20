@@ -16,7 +16,7 @@ Option_int test(){
 int main(int argc, char **argv){
 
     char* infile = argv[1];
-
+    /*
     Stack_Token token_test = Stack_Token_create(5);
 
     char* test_s = "<\"hello, world!\", CAT_LITERAL>";
@@ -41,20 +41,16 @@ int main(int argc, char **argv){
 
     Token cscn_file[22] = {0};
 
-    Result_file open_file = file_open("resources/my_test.cscn", "r");
 
-    if (open_file.status != OK){
-        explain_error(open_file);
-    }
+    //size_t file_size_num = file_size(open_file.value);
 
-    size_t file_size_num = file_size(open_file.value);
+    char* contents = "<, CAT_NUMBER>  ";
 
-    char contents[file_size_num];
+    //fread(contents, sizeof (char),file_size_num, open_file.value);
 
-    fread(contents, sizeof (char),file_size_num, open_file.value);
+    parse_str_to_tokens(contents, 16, cscn_file);
 
-    parse_str_to_tokens(contents, file_size_num, cscn_file);
-
+     //TODO ITERAR SOBRE TOKEN STACK
     for(int i = 0; i < token_test.stack.size; i++){
         int offset = i * sizeof(Token);
         Token* token_reference = (Token*) &token_test.stack.contents[offset];
@@ -63,7 +59,7 @@ int main(int argc, char **argv){
     printf("%s\n", FMT(BLUE_B));
 
     printf("%s", FMT(BLUE_BG));
-    for (int i = 0; i < 22; i++){
+    for (int i = 0; i < 1; i++){
         TKPRINT(&cscn_file[i]);
     }
     printf("%s\n", FMT(CLEAR));
@@ -72,52 +68,65 @@ int main(int argc, char **argv){
         Token to_print = Stack_Token_pop(&token_test).value;
         TKPRINT(&to_print);
     }
+     */
+    //Parser parse
 
+    Result_file file = file_open(infile, "r");
 
-    //must initialize as list of char*
-    char* files[7] = {
-            "resources/literals.txt",
-            "resources/numbers.txt",
-            "resources/identifier.txt",
-            "resources/special_char.txt",
-            "resources/types.txt",
-            "resources/operators.txt",
-            "resources/keywords.txt",
-    };
+    if (file.status != OK) return -1;
 
+    FILE* file_pointer = file.value;
 
-    Automata test = load_automata(files[0]);
-    print_automata(&test, "nombre");
+    size_t fsize = file_size(file_pointer);
 
+    char file_contents[fsize];
+    Token token_list[64];
 
-    Lexer lexer = create_lexer(files, 7);
+    fread(file_contents, sizeof(char), fsize, file_pointer);
+
+    parse_str_to_tokens(file_contents, fsize, token_list);
+
+    //token list is loaded
 
     //TODO: Implementation of the idea below
-/*
+    /*
+typedef struct rule{
+    1: S->E;
+    2: E->T;
+    3: E->E+T;
+    4: T->T*F;
+    5: T->F;
+    6: F->NUM;
+    7: F->(E);
+}; */
+
     size_t stack_size = 50;
     Stack_Token test_stack = Stack_Token_create(stack_size);
-    do {
+    Token A = create_token((char *) 'S', CAT_REDUCTION);
+    for(int i = 0; i < stack_size; ++i){
+        Token current_token = ; //get current_token
+        int current_rule = ; //get value in rules
+        //reduce
         if(current_rule != 0){
-            beta = current_token;
-            A = current_rule; //get non-terminal variable from current_rule 1 -> E, 2 -> E+T,etc.
-            reduce(beta, A, test_stack);
+            if (current_rule == 1){
+                A.lexeme = (char *) 'S';
+            }
+            else if(current_rule == 2 || current_rule == 3){
+                A.lexeme = (char *) 'E';
+            }
+            else if(current_rule == 4 || current_rule == 5){
+                A.lexeme = (char *) 'T';
+            }
+            else if(current_rule == 6 || current_rule == 7){
+                A.lexeme = (char *) 'F';
+            }
+            reduce(current_token, A, &test_stack);
         }
-        else{
-            //get next token
-            shift(token, test_stack);
+        else {
+            current_token = get_next_token;
+            shift(current_token, &test_stack);
         }
-*/
-
-
-    if(infile == NULL){
-        printf("\nError 0: No file present, check man page.\n");
     }
-    else{
-        join(outfile, infile, "scn");
-        scan_file(&lexer, infile, outfile);
-        printf("\n\nThe number of operations is: %i. \n", opcount(&lexer));
-    }
-
     return 0;
 }
 

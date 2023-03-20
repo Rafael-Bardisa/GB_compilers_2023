@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "optional.h"
 #include "foreach.h"
@@ -32,13 +33,6 @@ join_(buffer, NARGS(__VA_ARGS__), __VA_ARGS__);
 typedef optional(int) Option_int;
 typedef optional_ref(void) Option_void;
 
-/**
- * bool structure if needed
- */
-typedef enum bool_{
-    false = FALSE,
-    true = TRUE,
-} bool;
 
 #define USE_ISIN(type) static bool isin_##type(const type *container, size_t container_size, type element) {\
 for (int i = 0; i < container_size; i++) {\
