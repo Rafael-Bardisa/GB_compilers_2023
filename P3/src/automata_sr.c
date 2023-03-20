@@ -80,17 +80,14 @@ void Automata_SR_start(Automata_SR *automata) {
     automata->current_state = 1;
 }
 
-void reduce(char* beta, Token* A, Stack_Token* stack){
-    size_t len_beta = strlen(beta);
-    for(int i = 0; i < len_beta; ++i){
-        Stack_Token_pop(stack);
-    }
-    Stack_Token_push(stack, *A);
+void reduce(Token current_token, Token A, Stack_Token* stack){
+    Stack_Token_pop(stack);
+    Stack_Token_push(stack, A);
 }
 
 
-void shift(Token* token, Stack_Token* stack){
-    Stack_Token_push(stack, *token);
+void shift(Token token, Stack_Token* stack){
+    Stack_Token_push(stack, token);
 }
 
 void load_goto(Automata_SR* automata, char* goto_path){

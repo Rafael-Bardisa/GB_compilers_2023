@@ -164,7 +164,7 @@ bool _accept_SR(Automata_SR* automata);
  * @param A non-terminal variable
  * @param stack
  */
-void reduce(char* beta, Token* A, Stack_Token* stack);
+void reduce(Token current_token, Token A, Stack_Token* stack);
 
 /**
  *
