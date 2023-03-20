@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include "parser.h"
+#include "automata_sr.h"
 
 Option_int test(){
     Option_int result = {
@@ -71,7 +72,7 @@ int main(int argc, char **argv){
      */
     //Parser parse
 
-    Result_file file = file_open(infile, "r");
+    /*Result_file file = file_open(infile, "r");
 
     if (file.status != OK) return -1;
 
@@ -84,13 +85,11 @@ int main(int argc, char **argv){
 
     fread(file_contents, sizeof(char), fsize, file_pointer);
 
-    parse_str_to_tokens(file_contents, fsize, token_list);
+    parse_str_to_tokens(file_contents, fsize, token_list);*/
 
-    //token list is loaded
 
-    //TODO: Implementation of the idea below
-    /*
-typedef struct rule{
+
+    /* Production Rules
     1: S->E;
     2: E->T;
     3: E->E+T;
@@ -98,7 +97,7 @@ typedef struct rule{
     5: T->F;
     6: F->NUM;
     7: F->(E);
-}; */
+    */
 
     size_t stack_size = 50;
     Stack_Token test_stack = Stack_Token_create(stack_size);
@@ -106,7 +105,7 @@ typedef struct rule{
     for(int i = 0; i < stack_size; ++i){
         Token current_token = ; //get current_token
         int current_rule = ; //get value in rules
-        //reduce
+        // if in the current state it is possible to perform a reduction the value in rules[state][token] is not 0
         if(current_rule != 0){
             if (current_rule == 1){
                 A.lexeme = (char *) 'S';
@@ -122,6 +121,7 @@ typedef struct rule{
             }
             reduce(current_token, A, &test_stack);
         }
+        // if no reduction can be applied (that is rules[state][token] = 0), perform a shift
         else {
             current_token = get_next_token;
             shift(current_token, &test_stack);
